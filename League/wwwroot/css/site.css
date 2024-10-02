@@ -20,3 +20,87 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+
+
+/*Not Found Error Page*/
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+
+:root {
+    --bg: #313942;
+    --ghost: #528cce;
+    --heading: #191970;
+}
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+.body-notfound {
+    background-color: var(--bg);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.main-notfound {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    text-align: center;
+    padding-top: 0;
+}
+
+.h1-notfound {
+    color: var(--heading);
+    font-size: 12.5rem;
+    letter-spacing: .10em;
+    text-shadow: .05em .05em 0 rgba(0,0,0,.25);
+    white-space: nowrap;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+@media(max-width: 30rem) {
+    .h1-notfound {
+        font-size: 8.5rem;
+    }
+}
+
+.h1-notfound span {
+    animation: spooky 2s alternate infinite linear;
+    color: var(--ghost);
+    display: inline-block;
+}
+
+.h2-notfound {
+    color: var(--heading);
+    margin-bottom: .40em;
+    display: flex;
+    justify-content: center;
+}
+
+.p-notfound {
+    font-size: 2rem;
+    color: #363636;
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes spooky {
+    from {
+        transform: translateY(.15em) scaleY(.95);
+    }
+
+    to {
+        transform: translateY(-.15em);
+    }
+}
+/*End of Not Found Error Page*/
