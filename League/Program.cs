@@ -1,3 +1,7 @@
+using League.Data;
+using League.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace League
 {
     public class Program
@@ -8,6 +12,13 @@ namespace League
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+
+            builder.Services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
