@@ -14,6 +14,8 @@ namespace League
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+            builder.Services.AddScoped<IClubRepository, ClubRepository>();
+
 
             builder.Services.AddDbContext<DataContext>(options =>
             {

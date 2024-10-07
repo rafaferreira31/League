@@ -7,6 +7,7 @@ namespace League.Data
     {
         public DbSet<Player> Players { get; set; }
 
+        public DbSet<Club> Clubs { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
