@@ -22,7 +22,7 @@ namespace League.Data.Entities
 
         [Required]
         [Display(Name = "Birth Date")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
 
