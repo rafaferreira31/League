@@ -1,5 +1,6 @@
 ﻿using League.Data.Entities;
 using League.Data.Repositories;
+using League.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,12 @@ namespace League.Controllers
     public class PlayersController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly IUserHelper _userHelper;
 
-        public PlayersController(IPlayerRepository playerRepository)
+        public PlayersController(IPlayerRepository playerRepository, IUserHelper userHelper)
         {
             _playerRepository = playerRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Players

@@ -1,20 +1,44 @@
 ﻿using League.Data.Entities;
+using League.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace League.Data
 {
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IUserHelper _userHelper;
 
-        public SeedDb(DataContext context)
+        public SeedDb(DataContext context, IUserHelper userHelper)
         {
             _context = context;
+            _userHelper = userHelper;
         }
 
 
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
+
+            var user = await _userHelper.GetUserByEmailAsync("rafa.testes@sapo.pt");
+
+            if (user == null)
+            {
+                user = new User
+                {
+                    FirstName = "Rafael",
+                    LastName = "Ferreira",
+                    UserName = "rafa.testes@sapo.pt",
+                    Email = "rafa.testes@sapo.pt",
+                    PhoneNumber= "123456789",
+                };
+
+                var result = await _userHelper.AddUserAsync(user, "123456");
+                if(result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create the user in seeder");
+                }
+            }
 
 
             if (!_context.Players.Any())
@@ -44,7 +68,7 @@ namespace League.Data
                 FirstName = firstName,
                 LastName = lastName,
                 BirthDate = birthDate,
-                Position = position
+                Position = position,
             });
         }
 

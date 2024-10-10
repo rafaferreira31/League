@@ -32,6 +32,7 @@ namespace League.Data.Entities
 
 
         [Display(Name = "Profile Image")]
-        public string? ImageUrl { get; set; }    
+        public string? ImageUrl { get; set; }
+
     }
 }
