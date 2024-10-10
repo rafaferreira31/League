@@ -1,6 +1,8 @@
 ﻿using League.Data;
 using League.Data.Entities;
 using League.Data.Repositories;
+using League.Helpers;
+using League.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,16 +11,24 @@ namespace League.Controllers
     public class ClubsController : Controller
     {
         private readonly IClubRepository _clubRepository;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public ClubsController(IClubRepository clubRepository)
+        public ClubsController(
+            IClubRepository clubRepository,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper
+            )
         {
             _clubRepository = clubRepository;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Clubs
         public IActionResult Index()
         {
-            return View(_clubRepository.GetAll());
+            return View(_clubRepository.GetAll().OrderBy(c => c.Name));
         }
 
         // GET: Clubs/Details/5
@@ -50,15 +60,31 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Club club)
+        public async Task<IActionResult> Create(ClubViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                }
+
+                var club = _converterHelper.ToClub(model, path, true);
+
+                var duplicatedClub = await _clubRepository.GetByNameAsync(club.Name);
+                if (duplicatedClub != null)
+                {
+                    ModelState.AddModelError(string.Empty, "There is a club with the same name.");
+                    return View(model); 
+                }
+
                 await _clubRepository.CreateAsync(club);
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(club);
+            return View(model);
         }
 
         // GET: Clubs/Edit/5
@@ -75,6 +101,9 @@ namespace League.Controllers
             {
                 return NotFound();
             }
+
+            var model = _converterHelper.ToClubViewModel(club);
+
             return View(club);
         }
 
@@ -83,22 +112,32 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Club club)
+        public async Task<IActionResult> Edit(ClubViewModel model)
         {
-            if (id != club.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
+                var duplicatedClub = await _clubRepository.GetByNameAsync(model.Name);
+                if (duplicatedClub != null && duplicatedClub.Id != model.Id)
+                {
+                    ModelState.AddModelError(string.Empty, "There is a club with the same name.");
+                    return View(model);
+                }
                 try
                 {
+                    var path = model.ImageId;
+
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                    }
+
+                    var club = _converterHelper.ToClub(model, path, false);
+
                     await _clubRepository.UpdateAsync(club);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _clubRepository.ExistAsync(club.Id))
+                    if (!await _clubRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -109,7 +148,7 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(club);
+            return View(model);
         }
 
         // GET: Clubs/Delete/5

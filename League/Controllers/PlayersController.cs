@@ -1,6 +1,7 @@
 ﻿using League.Data.Entities;
 using League.Data.Repositories;
 using League.Helpers;
+using League.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +10,18 @@ namespace League.Controllers
     public class PlayersController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
-        private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public PlayersController(IPlayerRepository playerRepository, IUserHelper userHelper)
+        public PlayersController(
+            IPlayerRepository playerRepository, 
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper
+            )
         {
             _playerRepository = playerRepository;
-            _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Players
@@ -51,14 +58,23 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Player player)
+        public async Task<IActionResult> Create(PlayerViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if(model.ImageFile != null && model.ImageFile.Length > 0)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "players");
+                }
+
+                var player = _converterHelper.ToPlayer(model, path, true);
+
                 await _playerRepository.CreateAsync(player);
                 return RedirectToAction(nameof(Index));
             }
-            return View(player);
+            return View(model);
         }
 
         // GET: Players/Edit/5
@@ -74,7 +90,10 @@ namespace League.Controllers
             {
                 return NotFound();
             }
-            return View(player);
+
+            var model = _converterHelper.ToPlayerViewModel(player);
+
+            return View(model);
         }
 
         // POST: Players/Edit/5
@@ -82,22 +101,26 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Player player)
+        public async Task<IActionResult> Edit(PlayerViewModel model)
         {
-            if (id != player.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var path = string.Empty;
+
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "players");
+                    }
+
+                    var player = _converterHelper.ToPlayer(model, path, false);
+
                     await _playerRepository.UpdateAsync(player);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (await _playerRepository.ExistAsync(player.Id))
+                    if (await _playerRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -108,7 +131,7 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(player);
+            return View(model);
         }
 
         // GET: Players/Delete/5

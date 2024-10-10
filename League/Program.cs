@@ -32,6 +32,8 @@ namespace League
             builder.Services.AddTransient<SeedDb>();
 
             builder.Services.AddScoped<IUserHelper, UserHelper>();
+            builder.Services.AddScoped<IImageHelper, ImageHelper>();
+            builder.Services.AddScoped<IConverterHelper, ConverterHelper>();
 
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
             builder.Services.AddScoped<IClubRepository, ClubRepository>();
