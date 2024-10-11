@@ -20,6 +20,12 @@ namespace League.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+            await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("FederationEmpolyee");
+            await _userHelper.CheckRoleAsync("ClubRepresentant");
+            await _userHelper.CheckRoleAsync("Guest");
+
+
             var user = await _userHelper.GetUserByEmailAsync("rafa.testes@sapo.pt");
 
             if (user == null)
@@ -38,8 +44,15 @@ namespace League.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            if(!isInRole)
+            {
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
+            }
 
             if (!_context.Players.Any())
             {

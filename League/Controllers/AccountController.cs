@@ -86,21 +86,31 @@ namespace League.Controllers
                         return View(model);
                     }
 
-                    var loginViewModel = new LoginViewModel
-                    {
-                        Password = model.Password,
-                        RememberMe = false,
-                        Username = model.Username
-                    };
-
-                    var result2 = await _userHelper.LoginAsync(loginViewModel);
-                    if (result2.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-
-                    ModelState.AddModelError(string.Empty, "The user couldn't be loged.");
+                    await _userHelper.AddUserToRoleAsync(user, "Guest");
                 }
+
+                var isInRole = await _userHelper.IsUserInRoleAsync(user, "Guest");
+                if (!isInRole)
+                {
+                    await _userHelper.AddUserToRoleAsync(user, "Guest");
+                }
+
+
+                var loginViewModel = new LoginViewModel
+                {
+                    Password = model.Password,
+                    RememberMe = false,
+                    Username = model.Username
+                };
+
+                var result2 = await _userHelper.LoginAsync(loginViewModel);
+                if (result2.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError(string.Empty, "The user couldn't be loged.");
+
             }
 
             return View(model);
