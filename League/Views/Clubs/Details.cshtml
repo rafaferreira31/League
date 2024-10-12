@@ -63,6 +63,34 @@
         {
             <p>No players registered for this club.</p>
         }
+
+
+        @if (Model.Staffs != null && Model.Staffs.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Function</th>
+                        <th>BirthDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var staff in Model.Staffs)
+                    {
+                        <tr>
+                            <td>@staff.FullName</td>
+                            <td>@staff.FunctionPerformed</td>
+                            <td>@staff.BirthDate.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No staffs registered for this club.</p>
+        }
     </div>
    
 </div>

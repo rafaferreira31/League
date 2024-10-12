@@ -56,6 +56,34 @@ namespace League.Helpers
                 ClubId = player.ClubId,
             };
         }
+
+        public Staff ToStaff(StaffViewModel model, string path, bool isNew)
+        {
+            return new Staff
+            {
+                Id = isNew ? 0 : model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = model.BirthDate,
+                FunctionPerformed = model.FunctionPerformed,
+                ImageUrl = path,
+                ClubId = model.ClubId,
+            };
+        }
+
+        public Staff ToStaffViewModel(Staff staff)
+        {
+            return new StaffViewModel
+            {
+                Id = staff.Id,
+                FirstName = staff.FirstName,
+                LastName = staff.LastName,
+                BirthDate = staff.BirthDate,
+                FunctionPerformed = staff.FunctionPerformed,
+                ImageUrl = staff.ImageUrl,
+                ClubId = staff.ClubId,
+            };
+        }
     }
 
 }

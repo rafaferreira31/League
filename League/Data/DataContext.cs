@@ -8,6 +8,8 @@ namespace League.Data
     {
         public DbSet<Player> Players { get; set; }
 
+        public DbSet<Staff> Staffs { get; set; }
+
         public DbSet<Club> Clubs { get; set; }
 
         public DbSet<Game> Games { get; set; }

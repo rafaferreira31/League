@@ -4,6 +4,7 @@ using League.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace League.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241012153003_AddStaff")]
+    partial class AddStaff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,8 +153,6 @@ namespace League.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClubId");
 
                     b.ToTable("Staffs");
                 });
@@ -371,15 +372,6 @@ namespace League.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("League.Data.Entities.Staff", b =>
-                {
-                    b.HasOne("League.Data.Entities.Club", null)
-                        .WithMany("Staffs")
-                        .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -434,8 +426,6 @@ namespace League.Migrations
             modelBuilder.Entity("League.Data.Entities.Club", b =>
                 {
                     b.Navigation("Players");
-
-                    b.Navigation("Staffs");
                 });
 #pragma warning restore 612, 618
         }

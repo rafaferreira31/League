@@ -29,7 +29,7 @@ namespace League.Controllers
         }
 
         // GET: Players
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(_playerRepository.GetAll());
         }
@@ -128,7 +128,7 @@ namespace League.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (await _playerRepository.ExistAsync(model.Id))
+                    if (!await _playerRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }

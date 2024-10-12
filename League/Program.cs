@@ -36,6 +36,7 @@ namespace League
             builder.Services.AddScoped<IConverterHelper, ConverterHelper>();
 
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+            builder.Services.AddScoped<IStaffRepository, StaffRepository>();
             builder.Services.AddScoped<IClubRepository, ClubRepository>();
             builder.Services.AddScoped<IGameRepository, GameRepository>();
 

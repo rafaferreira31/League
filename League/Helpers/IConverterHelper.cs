@@ -13,5 +13,9 @@ namespace League.Helpers
 
         Club ToClubViewModel(Club club);
 
+        Staff ToStaff(StaffViewModel model, string path, bool isNew);
+
+        Staff ToStaffViewModel(Staff staff);
+
     }
 }

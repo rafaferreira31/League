@@ -1,40 +1,44 @@
-﻿using League.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using League.Data;
 using League.Data.Entities;
 using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace League.Controllers
 {
-    public class ClubsController : Controller
+    public class StaffsController : Controller
     {
+        private readonly IStaffRepository _staffRepository;
         private readonly IClubRepository _clubRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly DataContext _context;
 
-        public ClubsController(
+        public StaffsController(
+            IStaffRepository staffRepository,
             IClubRepository clubRepository,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper,
-            DataContext context
-            )
+            IConverterHelper converterHelper)
         {
+            _staffRepository = staffRepository;
             _clubRepository = clubRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-            _context = context;
         }
 
-        // GET: Clubs
+        // GET: Staffs
         public IActionResult Index()
         {
-            return View(_clubRepository.GetAll().OrderBy(c => c.Name));
+            return View(_staffRepository.GetAll());
         }
 
-        // GET: Clubs/Details/5
+        // GET: Staffs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,31 +46,28 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var club = await _context.Clubs
-                .Include(c => c.Players)
-                .Include(c => c.Staffs)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (club == null)
+            var staff = await _staffRepository.GetByIdAsync(id.Value);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            return View(club);
+            return View(staff);
         }
 
-        // GET: Clubs/Create
+        // GET: Staffs/Create
         public IActionResult Create()
         {
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             return View();
         }
 
-        // POST: Clubs/Create
+        // POST: Staffs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ClubViewModel model)
+        public async Task<IActionResult> Create(StaffViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -74,26 +75,19 @@ namespace League.Controllers
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Staffs");
                 }
 
-                var club = _converterHelper.ToClub(model, path, true);
+                var staff = _converterHelper.ToStaff(model, path, true);
 
-                var duplicatedClub = await _clubRepository.GetByNameAsync(club.Name);
-                if (duplicatedClub != null)
-                {
-                    ModelState.AddModelError(string.Empty, "There is a club with the same name.");
-                    return View(model); 
-                }
-
-                await _clubRepository.CreateAsync(club);
-
+                await _staffRepository.CreateAsync(staff);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             return View(model);
         }
 
-        // GET: Clubs/Edit/5
+        // GET: Staffs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,49 +95,43 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var club = await _clubRepository.GetByIdAsync(id.Value);
-
-            if (club == null)
+            var staff = await _staffRepository.GetByIdAsync(id.Value);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            var model = _converterHelper.ToClubViewModel(club);
+            var model = _converterHelper.ToStaffViewModel(staff);
 
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
             return View(model);
         }
 
-        // POST: Clubs/Edit/5
+        // POST: Staffs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ClubViewModel model)
+        public async Task<IActionResult> Edit(StaffViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var duplicatedClub = await _clubRepository.GetByNameAsync(model.Name);
-                if (duplicatedClub != null && duplicatedClub.Id != model.Id)
-                {
-                    ModelState.AddModelError(string.Empty, "There is a club with the same name.");
-                    return View(model);
-                }
                 try
                 {
-                    var path = model.ImageId;
+                    var path = string.Empty;
 
-                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    if(model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "Staffs");
                     }
 
-                    var club = _converterHelper.ToClub(model, path, false);
+                    var staff = _converterHelper.ToStaff(model, path, false);
 
-                    await _clubRepository.UpdateAsync(club);
+                    await _staffRepository.UpdateAsync(staff);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _clubRepository.ExistAsync(model.Id))
+                    if (!await _staffRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -154,10 +142,13 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
             return View(model);
         }
 
-        // GET: Clubs/Delete/5
+        // GET: Staffs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,23 +156,22 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var club = await _clubRepository.GetByIdAsync(id.Value);
-            if (club == null)
+            var staff = await _staffRepository.GetByIdAsync(id.Value);
+            if (staff == null)
             {
                 return NotFound();
             }
 
-            return View(club);
+            return View(staff);
         }
 
-        // POST: Clubs/Delete/5
+        // POST: Staffs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var club = await _clubRepository.GetByIdAsync(id);
-            await _clubRepository.DeleteAsync(club);
-
+            var staff = await _staffRepository.GetByIdAsync(id);
+            await _staffRepository.DeleteAsync(staff);
             return RedirectToAction(nameof(Index));
         }
     }

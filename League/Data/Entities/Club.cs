@@ -24,5 +24,7 @@ namespace League.Data.Entities
 
 
         public ICollection<Player> Players { get; set; }
+
+        public ICollection<Staff> Staffs { get; set; }
     }
 }

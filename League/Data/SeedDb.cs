@@ -76,7 +76,21 @@ namespace League.Data
                 AddPlayer("Kylian", "Mbappé", new DateTime(1998, 12, 20), "Forward", madrid.Id);
 
                 await _context.SaveChangesAsync();
-            }            
+            }
+
+
+            if (!_context.Staffs.Any())
+            {
+                var barcelona = _context.Clubs.FirstOrDefault(c => c.Name == "FC Barcelona");
+                var madrid = _context.Clubs.FirstOrDefault(c => c.Name == "Real Madrid");
+
+                AddStaff("Ronald", "Koeman", new DateTime(1963, 3, 21), "Head Coach", barcelona.Id);
+                AddStaff("Zinedine", "Zidane", new DateTime(1972, 6, 23), "Head Coach", madrid.Id);
+                AddStaff("Jordi", "Roura", new DateTime(1967, 3, 6), "Assistant Coach", barcelona.Id);
+                AddStaff("David", "Bettoni", new DateTime(1980, 5, 8), "Assistant Coach", madrid.Id);
+
+                await _context.SaveChangesAsync();
+            }
         }
 
 
@@ -92,6 +106,17 @@ namespace League.Data
             });
         }
 
+        private void AddStaff(string firstName, string lastName, DateTime birthDate, string functionPerformed, int clubId)
+        {
+            _context.Staffs.Add(new Staff
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                BirthDate = birthDate,
+                FunctionPerformed = functionPerformed,
+                ClubId = clubId
+            });
+        }
 
         private void AddClub(string name, DateTime foundingDate, string stadium)
         {

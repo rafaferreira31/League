@@ -36,7 +36,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="ClubId" class="control-label">Club</label>
-                <select asp-for="ClubId" class="form-control" asp-items="ViewBag.Clubs"></select>
+                <select asp-for="ClubId" class="form-control" asp-items="ViewBag.Clubs">
+                    <option value="">Select Club....</option>
+                </select>
                 <span asp-validation-for="ClubId" class="text-danger"></span>
             </div>
             <div class="form-group">
