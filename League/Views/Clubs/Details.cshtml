@@ -37,7 +37,34 @@
                 <img src="@Url.Content(Model.ImageId)" alt="Picture" style="width: 300px; height: 450px; max-width: 100%; height: auto ">
             }
         </div>
+        @if (Model.Players != null && Model.Players.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>BirthDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var player in Model.Players)
+                    {
+                        <tr>
+                            <td>@player.FirstName @player.LastName</td>
+                            <td>@player.Position</td>
+                            <td>@player.BirthDate.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No players registered for this club.</p>
+        }
     </div>
+   
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

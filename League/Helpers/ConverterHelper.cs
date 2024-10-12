@@ -39,6 +39,7 @@ namespace League.Helpers
                 BirthDate = model.BirthDate,
                 Position = model.Position,
                 ImageUrl = path,
+                ClubId = model.ClubId,
             };
         }
 
@@ -52,6 +53,7 @@ namespace League.Helpers
                 BirthDate = player.BirthDate,
                 Position = player.Position,
                 ImageUrl = player.ImageUrl,
+                ClubId = player.ClubId,
             };
         }
     }

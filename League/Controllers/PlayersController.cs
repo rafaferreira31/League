@@ -3,6 +3,7 @@ using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace League.Controllers
@@ -10,16 +11,19 @@ namespace League.Controllers
     public class PlayersController : Controller
     {
         private readonly IPlayerRepository _playerRepository;
+        private readonly IClubRepository _clubRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
 
         public PlayersController(
-            IPlayerRepository playerRepository, 
+            IPlayerRepository playerRepository,
+            IClubRepository clubRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper
             )
         {
             _playerRepository = playerRepository;
+            _clubRepository = clubRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
         }
@@ -50,6 +54,7 @@ namespace League.Controllers
         // GET: Players/Create
         public IActionResult Create()
         {
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -74,6 +79,8 @@ namespace League.Controllers
                 await _playerRepository.CreateAsync(player);
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             return View(model);
         }
 
@@ -93,6 +100,7 @@ namespace League.Controllers
 
             var model = _converterHelper.ToPlayerViewModel(player);
 
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
             return View(model);
         }
 
@@ -131,6 +139,9 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
             return View(model);
         }
 

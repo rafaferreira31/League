@@ -21,5 +21,8 @@ namespace League.Data.Entities
 
         [Required]
         public string Stadium { get; set; }
+
+
+        public ICollection<Player> Players { get; set; }
     }
 }

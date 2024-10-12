@@ -13,16 +13,19 @@ namespace League.Controllers
         private readonly IClubRepository _clubRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly DataContext _context;
 
         public ClubsController(
             IClubRepository clubRepository,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper
+            IConverterHelper converterHelper,
+            DataContext context
             )
         {
             _clubRepository = clubRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+            _context = context;
         }
 
         // GET: Clubs
@@ -39,7 +42,8 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var club = await _clubRepository.GetByIdAsync(id.Value);
+            var club = await _context.Clubs.Include(c => c.Players)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (club == null)
             {
@@ -104,7 +108,7 @@ namespace League.Controllers
 
             var model = _converterHelper.ToClubViewModel(club);
 
-            return View(club);
+            return View(model);
         }
 
         // POST: Clubs/Edit/5

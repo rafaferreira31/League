@@ -34,5 +34,8 @@ namespace League.Data.Entities
         [Display(Name = "Profile Image")]
         public string? ImageUrl { get; set; }
 
+
+        [Required]
+        public int ClubId { get; set; }
     }
 }
