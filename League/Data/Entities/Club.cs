@@ -23,8 +23,8 @@ namespace League.Data.Entities
         public string Stadium { get; set; }
 
 
-        public ICollection<Player> Players { get; set; }
+        public ICollection<Player>? Players { get; set; }
 
-        public ICollection<Staff> Staffs { get; set; }
+        public ICollection<Staff>? Staffs { get; set; }
     }
 }

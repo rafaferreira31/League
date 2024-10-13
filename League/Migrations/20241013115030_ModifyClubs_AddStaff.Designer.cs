@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace League.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241012185326_AddStaffsToClubs")]
-    partial class AddStaffsToClubs
+    [Migration("20241013115030_ModifyClubs_AddStaff")]
+    partial class ModifyClubs_AddStaff
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
