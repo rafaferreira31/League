@@ -11,21 +11,31 @@ namespace League.Data.Entities
         public DateTime GameDate { get; set; }
 
 
-        [Required]  
-        public string VisitedClub { get; set; }
+        [Required]
+        public int VisitedClubId { get; set; }
+
+        public Club VisitedClub { get; set; }
 
 
         [Required]
-        public string VisitorClub { get; set; }
+        public int VisitorClubId { get; set; }
+
+        public Club VisitorClub { get; set; }
 
 
-        [Required]
         [Display(Name = "Visited Club Goals")]
         public int? VisitedGoals { get; set; }
 
 
-        [Required]
         [Display(Name = "Visitor Club Goals")]
         public int? VisitorGoals { get; set; }
+
+
+        [Display(Name = "Visited Club Assigned Cards")]
+        public int? VisitedAssignedCards { get; set; }
+
+
+        [Display(Name = "Visitor Club Assigned Cards")]
+        public int? VisitorAssignedCards { get; set; }
     }
 }

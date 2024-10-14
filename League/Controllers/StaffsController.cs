@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using League.Data.Repositories;
+using League.Helpers;
+using League.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using League.Data;
-using League.Data.Entities;
-using League.Data.Repositories;
-using League.Helpers;
-using League.Models;
 
 namespace League.Controllers
 {
@@ -59,6 +53,17 @@ namespace League.Controllers
         public IActionResult Create()
         {
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
+            ViewBag.Functions = new SelectList(new List<string>
+            {
+                "Head Coach",
+                "Assistant Coach",
+                "Physical Trainer",
+                "Doctor",
+                "Physiotherapist",
+                "Analyst",
+            });
+
             return View();
         }
 
@@ -84,6 +89,17 @@ namespace League.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
+            ViewBag.Functions = new SelectList(new List<string>
+            {
+                "Head Coach",
+                "Assistant Coach",
+                "Physical Trainer",
+                "Doctor",
+                "Physiotherapist",
+                "Analyst",
+            });
+
             return View(model);
         }
 
@@ -104,6 +120,17 @@ namespace League.Controllers
             var model = _converterHelper.ToStaffViewModel(staff);
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
+            ViewBag.Functions = new SelectList(new List<string>
+            {
+                "Head Coach",
+                "Assistant Coach",
+                "Physical Trainer",
+                "Doctor",
+                "Physiotherapist",
+                "Analyst",
+            });
+
             return View(model);
         }
 
@@ -120,7 +147,7 @@ namespace League.Controllers
                 {
                     var path = string.Empty;
 
-                    if(model.ImageFile != null && model.ImageFile.Length > 0)
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "Staffs");
                     }
@@ -142,8 +169,18 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
+            ViewBag.Functions = new SelectList(new List<string>
+            {
+                "Head Coach",
+                "Assistant Coach",
+                "Physical Trainer",
+                "Doctor",
+                "Physiotherapist",
+                "Analyst",
+            });
 
             return View(model);
         }

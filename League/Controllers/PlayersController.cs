@@ -55,6 +55,22 @@ namespace League.Controllers
         public IActionResult Create()
         {
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
+            ViewBag.Positions = new SelectList(new List<string>
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
+
             return View();
         }
 
@@ -81,6 +97,22 @@ namespace League.Controllers
             }
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
+            ViewBag.Positions = new SelectList(new List<string>
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
+
             return View(model);
         }
 
@@ -101,6 +133,22 @@ namespace League.Controllers
             var model = _converterHelper.ToPlayerViewModel(player);
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
+            ViewBag.Positions = new SelectList(new List<string>
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
+
             return View(model);
         }
 
@@ -141,6 +189,21 @@ namespace League.Controllers
             }
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+
+            ViewBag.Positions = new SelectList(new List<string>
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
 
             return View(model);
         }

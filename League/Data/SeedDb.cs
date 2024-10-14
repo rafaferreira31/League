@@ -70,10 +70,10 @@ namespace League.Data
                 var barcelona = _context.Clubs.FirstOrDefault(c => c.Name == "FC Barcelona");
                 var madrid = _context.Clubs.FirstOrDefault(c => c.Name == "Real Madrid");
 
-                AddPlayer("Lionel", "Messi", new DateTime(1987, 6, 24), "Forward", barcelona.Id);
-                AddPlayer("Cristiano", "Ronaldo", new DateTime(1985, 2, 5), "Forward", madrid.Id);
-                AddPlayer("Neymar", "Jr", new DateTime(1992, 2, 5), "Forward", barcelona.Id);
-                AddPlayer("Kylian", "Mbappé", new DateTime(1998, 12, 20), "Forward", madrid.Id);
+                AddPlayer("Lionel", "Messi", new DateTime(1987, 6, 24), "Striker", barcelona.Id);
+                AddPlayer("Cristiano", "Ronaldo", new DateTime(1985, 2, 5), "Striker", madrid.Id);
+                AddPlayer("Neymar", "Jr", new DateTime(1992, 2, 5), "Striker", barcelona.Id);
+                AddPlayer("Kylian", "Mbappé", new DateTime(1998, 12, 20), "Striker", madrid.Id);
 
                 await _context.SaveChangesAsync();
             }
