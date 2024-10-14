@@ -12,15 +12,11 @@ namespace League.Data.Entities
 
 
         [Required]
-        public int VisitedClubId { get; set; }
-
-        public Club VisitedClub { get; set; }
+        public string VisitedClub { get; set; }
 
 
         [Required]
-        public int VisitorClubId { get; set; }
-
-        public Club VisitorClub { get; set; }
+        public string VisitorClub { get; set; }
 
 
         [Display(Name = "Visited Club Goals")]

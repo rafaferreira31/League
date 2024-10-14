@@ -2,7 +2,7 @@
 
 namespace League.Models
 {
-    public class RegisterGuestViewModel
+    public class RegisterNewUserViewModel
     {
         [Required]
         [Display(Name = "First Name")]
@@ -19,9 +19,9 @@ namespace League.Models
         public string Username { get; set; }
 
 
-        [Required]
-        public string PhoneNumber { get; set; }
+        [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characteres lenght.")]
 
+        public string PhoneNumber { get; set; }
 
         [Required]
         [MinLength(6)]
@@ -31,6 +31,11 @@ namespace League.Models
         [Required]
         [Compare("Password")]
         public string Confirm { get; set; }
+
+
+        [Required]
+        [Display(Name = "Role")]
+        public string SelectedRole { get; set; }
 
 
         [Display(Name = "Profile Image")]

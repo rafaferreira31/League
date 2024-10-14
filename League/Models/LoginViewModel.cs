@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using League.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace League.Models
 {
@@ -15,5 +16,7 @@ namespace League.Models
 
 
         public bool RememberMe { get; set; }
+
+
     }
 }

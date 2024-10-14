@@ -4,7 +4,8 @@ using League.Data.Repositories;
 using League.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace League
 {
@@ -17,6 +18,8 @@ namespace League
             // Add services to the container.
             builder.Services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -25,7 +28,20 @@ namespace League
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
             })
+                .AddDefaultTokenProviders() 
                 .AddEntityFrameworkStores<DataContext>();
+
+            builder.Services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = builder.Configuration["Tokens:Issuer"],
+                        ValidAudience = builder.Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Tokens:Key"]))
+                    };
+                });
 
             builder.Services.AddControllersWithViews();
 
@@ -34,6 +50,7 @@ namespace League
             builder.Services.AddScoped<IUserHelper, UserHelper>();
             builder.Services.AddScoped<IImageHelper, ImageHelper>();
             builder.Services.AddScoped<IConverterHelper, ConverterHelper>();
+            builder.Services.AddScoped<IMailHelper, MailHelper>();
 
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
             builder.Services.AddScoped<IStaffRepository, StaffRepository>();
