@@ -33,7 +33,7 @@ namespace League.Data.Repositories
         public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
-            await SaveAllAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity)

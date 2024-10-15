@@ -129,8 +129,5 @@ namespace League.Data
                 Stadium = stadium
             });
         }
-
-
-
     }
 }

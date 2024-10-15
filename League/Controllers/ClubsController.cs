@@ -11,19 +11,19 @@ namespace League.Controllers
     public class ClubsController : Controller
     {
         private readonly IClubRepository _clubRepository;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly DataContext _context;
 
         public ClubsController(
             IClubRepository clubRepository,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper,
             DataContext context
             )
         {
             _clubRepository = clubRepository;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
             _context = context;
         }
@@ -70,14 +70,14 @@ namespace League.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                Guid imageId = Guid.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "clubs");
                 }
 
-                var club = _converterHelper.ToClub(model, path, true);
+                var club = _converterHelper.ToClub(model, imageId, true);
 
                 var duplicatedClub = await _clubRepository.GetByNameAsync(club.Name);
                 if (duplicatedClub != null)
@@ -130,14 +130,13 @@ namespace League.Controllers
                 }
                 try
                 {
-                    var path = model.ImageId;
-
+                    Guid imageId = model.ImageId;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "clubs");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "clubs");
                     }
 
-                    var club = _converterHelper.ToClub(model, path, false);
+                    var club = _converterHelper.ToClub(model, imageId, false);
 
                     await _clubRepository.UpdateAsync(club);
                 }

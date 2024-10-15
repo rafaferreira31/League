@@ -12,19 +12,19 @@ namespace League.Controllers
     {
         private readonly IPlayerRepository _playerRepository;
         private readonly IClubRepository _clubRepository;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public PlayersController(
             IPlayerRepository playerRepository,
             IClubRepository clubRepository,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper
             )
         {
             _playerRepository = playerRepository;
             _clubRepository = clubRepository;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -83,14 +83,14 @@ namespace League.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
 
-                if(model.ImageFile != null && model.ImageFile.Length > 0)
+                Guid imageId = Guid.Empty;
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "players");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "players");
                 }
 
-                var player = _converterHelper.ToPlayer(model, path, true);
+                var player = _converterHelper.ToPlayer(model, imageId, true);
 
                 await _playerRepository.CreateAsync(player);
                 return RedirectToAction(nameof(Index));
@@ -161,16 +161,21 @@ namespace League.Controllers
         {
             if (ModelState.IsValid)
             {
+                var duplicatedPlayer = await _clubRepository.GetByNameAsync(model.FullName);
+                if (duplicatedPlayer != null && duplicatedPlayer.Id != model.Id)
+                {
+                    ModelState.AddModelError(string.Empty, "There is a player with the same name.");
+                    return View(model);
+                }
                 try
                 {
-                    var path = string.Empty;
-
+                    Guid imageId = model.ImageId;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "players");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "players");
                     }
 
-                    var player = _converterHelper.ToPlayer(model, path, false);
+                    var player = _converterHelper.ToPlayer(model, imageId, false);
 
                     await _playerRepository.UpdateAsync(player);
                 }

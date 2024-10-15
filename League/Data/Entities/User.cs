@@ -12,6 +12,11 @@ namespace League.Data.Entities
 
 
         [Display(Name = "Profile Image")]
-        public string? ImageUrl { get; set; }
+        public Guid ImageId { get; set; }
+
+
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://nosleague.azurewebsites.net/images/noimage.png"
+            : $"https://nosleague.blob.core.windows.net/users/{ImageId}";
     }
 }

@@ -12,9 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageId)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -32,9 +30,9 @@
         {
             <tr>
                 <td>
-                    @if (!string.IsNullOrEmpty(item.ImageId))
+                    @if (!string.IsNullOrEmpty(item.ImageFullPath))
                     {
-                        <img src="@Url.Content(item.ImageId)" alt="Emblem" style="width: 50px; height: 75px; max-width: 100%; height: auto ">
+                        <img src="@Url.Content(item.ImageFullPath)" alt="Emblem" style="width: 50px; height: 75px; max-width: 100%; height: auto ">
                     }
                 </td>
                 <td>

@@ -5,13 +5,13 @@ namespace League.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public Club ToClub(ClubViewModel model, string path, bool isNew)
+        public Club ToClub(ClubViewModel model, Guid imageId, bool isNew)
         {
             return new Club
             {
                 Id = isNew ? 0 : model.Id,
                 Name = model.Name,
-                ImageId = path,
+                ImageId = imageId,
                 FoundingDate = model.FoundingDate,
                 Stadium = model.Stadium,
             };
@@ -29,7 +29,7 @@ namespace League.Helpers
             };
         }
 
-        public Player ToPlayer(PlayerViewModel model, string path, bool isNew)
+        public Player ToPlayer(PlayerViewModel model, Guid imageId, bool isNew)
         {
             return new Player
             {
@@ -38,7 +38,7 @@ namespace League.Helpers
                 LastName = model.LastName,
                 BirthDate = model.BirthDate,
                 Position = model.Position,
-                ImageUrl = path,
+                ImageId = imageId,
                 ClubId = model.ClubId,
             };
         }
@@ -52,12 +52,12 @@ namespace League.Helpers
                 LastName = player.LastName,
                 BirthDate = player.BirthDate,
                 Position = player.Position,
-                ImageUrl = player.ImageUrl,
+                ImageId = player.ImageId,
                 ClubId = player.ClubId,
             };
         }
 
-        public Staff ToStaff(StaffViewModel model, string path, bool isNew)
+        public Staff ToStaff(StaffViewModel model, Guid imageId, bool isNew)
         {
             return new Staff
             {
@@ -66,7 +66,7 @@ namespace League.Helpers
                 LastName = model.LastName,
                 BirthDate = model.BirthDate,
                 FunctionPerformed = model.FunctionPerformed,
-                ImageUrl = path,
+                ImageId = imageId,
                 ClubId = model.ClubId,
             };
         }
@@ -80,10 +80,9 @@ namespace League.Helpers
                 LastName = staff.LastName,
                 BirthDate = staff.BirthDate,
                 FunctionPerformed = staff.FunctionPerformed,
-                ImageUrl = staff.ImageUrl,
+                ImageId = staff.ImageId,
                 ClubId = staff.ClubId,
             };
         }
     }
-
 }

@@ -5,6 +5,7 @@ using League.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace League
@@ -48,7 +49,7 @@ namespace League
             builder.Services.AddTransient<SeedDb>();
 
             builder.Services.AddScoped<IUserHelper, UserHelper>();
-            builder.Services.AddScoped<IImageHelper, ImageHelper>();
+            builder.Services.AddScoped<IBlobHelper, BlobHelper>();
             builder.Services.AddScoped<IConverterHelper, ConverterHelper>();
             builder.Services.AddScoped<IMailHelper, MailHelper>();
 

@@ -11,18 +11,18 @@ namespace League.Controllers
     {
         private readonly IStaffRepository _staffRepository;
         private readonly IClubRepository _clubRepository;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public StaffsController(
             IStaffRepository staffRepository,
             IClubRepository clubRepository,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
             _staffRepository = staffRepository;
             _clubRepository = clubRepository;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -76,14 +76,13 @@ namespace League.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
-
+                Guid imageId = Guid.Empty;
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Staffs");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "staffs");
                 }
 
-                var staff = _converterHelper.ToStaff(model, path, true);
+                var staff = _converterHelper.ToStaff(model, imageId, true);
 
                 await _staffRepository.CreateAsync(staff);
                 return RedirectToAction(nameof(Index));
@@ -145,14 +144,13 @@ namespace League.Controllers
             {
                 try
                 {
-                    var path = string.Empty;
-
+                    Guid imageId = Guid.Empty;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "Staffs");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "staffs");
                     }
 
-                    var staff = _converterHelper.ToStaff(model, path, false);
+                    var staff = _converterHelper.ToStaff(model, imageId, false);
 
                     await _staffRepository.UpdateAsync(staff);
                 }

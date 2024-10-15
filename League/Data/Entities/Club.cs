@@ -12,7 +12,7 @@ namespace League.Data.Entities
 
 
         [Display(Name = "Club Emblem")]
-        public string? ImageId { get; set; }
+        public Guid ImageId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -26,5 +26,11 @@ namespace League.Data.Entities
         public ICollection<Player>? Players { get; set; }
 
         public ICollection<Staff>? Staffs { get; set; }
+
+
+        public string ImageFullPath => ImageId == Guid.Empty
+            ? $"https://nosleague.azurewebsites.net/images/noimage.png"
+            : $"https://nosleague.blob.core.windows.net/clubs/{ImageId}";
     }
 }
+
