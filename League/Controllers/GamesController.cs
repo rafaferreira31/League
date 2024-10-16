@@ -14,16 +14,18 @@ namespace League.Controllers
     public class GamesController : Controller
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IClubRepository _clubRepository;
 
-        public GamesController(IGameRepository gameRepository)
+        public GamesController(IGameRepository gameRepository, IClubRepository clubRepository)
         {
             _gameRepository = gameRepository;
+            _clubRepository = clubRepository;
         }
 
         // GET: Games
         public IActionResult Index()
         {
-            return View(_gameRepository.GetAll());
+            return View(_gameRepository.GetAll().OrderBy(g => g.GameDate));
         }
 
         // GET: Games/Details/5
@@ -46,6 +48,7 @@ namespace League.Controllers
         // GET: Games/Create
         public IActionResult Create()
         {
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             return View();
         }
 
@@ -58,9 +61,19 @@ namespace League.Controllers
         {
             if (ModelState.IsValid)
             {
+                var visitedName = await _clubRepository.GetClubNameById(game.VisitedClubId);
+                var visitorName = await _clubRepository.GetClubNameById(game.VisitorClubId);
+
+                game.VisitedClubName = visitedName;
+                game.VisitorClubName = visitorName;
+
                 await _gameRepository.CreateAsync(game);
+
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
             return View(game);
         }
 
@@ -77,6 +90,9 @@ namespace League.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
             return View(game);
         }
 
@@ -87,16 +103,17 @@ namespace League.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Game game)
         {
-            if (id != game.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                   await _gameRepository.UpdateAsync(game);
+                    var visitedName = await _clubRepository.GetClubNameById(game.VisitedClubId);
+                    var visitorName = await _clubRepository.GetClubNameById(game.VisitorClubId);
+
+                    game.VisitedClubName = visitedName;
+                    game.VisitorClubName = visitorName;
+
+                    await _gameRepository.UpdateAsync(game);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,6 +128,9 @@ namespace League.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
             return View(game);
         }
 

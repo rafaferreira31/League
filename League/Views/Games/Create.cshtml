@@ -17,14 +17,18 @@
                 <span asp-validation-for="GameDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VisitedClub" class="control-label"></label>
-                <input asp-for="VisitedClub" class="form-control" />
-                <span asp-validation-for="VisitedClub" class="text-danger"></span>
+                <label asp-for="VisitedClubId" class="control-label">Home Club</label>
+                <select asp-for="VisitedClubId" class="form-control" asp-items="ViewBag.Clubs">
+                    <option value="">Select a Club....</option>
+                </select>
+                <span asp-validation-for="VisitedClubId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VisitorClub" class="control-label"></label>
-                <input asp-for="VisitorClub" class="form-control" />
-                <span asp-validation-for="VisitorClub" class="text-danger"></span>
+                <label asp-for="VisitorClubId" class="control-label">Away Club</label>
+                <select asp-for="VisitorClubId" class="form-control" asp-items="ViewBag.Clubs">
+                    <option value="">Select a Club....</option>
+                </select>
+                <span asp-validation-for="VisitorClubId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="VisitedGoals" class="control-label"></label>
@@ -36,6 +40,17 @@
                 <input asp-for="VisitorGoals" class="form-control" />
                 <span asp-validation-for="VisitorGoals" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="VisitedAssignedCards" class="control-label"></label>
+                <input asp-for="VisitedAssignedCards" class="form-control" />
+                <span asp-validation-for="VisitedAssignedCards" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitorAssignedCards" class="control-label"></label>
+                <input asp-for="VisitorAssignedCards" class="form-control" />
+                <span asp-validation-for="VisitorAssignedCards" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
                 <a asp-action="Index">Back to List</a>

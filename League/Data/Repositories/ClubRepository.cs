@@ -18,5 +18,14 @@ namespace League.Data.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Name == name);
         }
+
+        public async Task<string> GetClubNameById(int id)
+        {
+            var club = await _context.Clubs
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            return club.Name;
+        }
     }
 }
