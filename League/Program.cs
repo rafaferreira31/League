@@ -5,7 +5,6 @@ using League.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace League
@@ -29,7 +28,7 @@ namespace League
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequiredLength = 6;
             })
-                .AddDefaultTokenProviders() 
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
             builder.Services.AddAuthentication()

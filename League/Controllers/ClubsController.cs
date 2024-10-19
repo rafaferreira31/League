@@ -1,5 +1,4 @@
 ﻿using League.Data;
-using League.Data.Entities;
 using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
@@ -83,7 +82,7 @@ namespace League.Controllers
                 if (duplicatedClub != null)
                 {
                     ModelState.AddModelError(string.Empty, "There is a club with the same name.");
-                    return View(model); 
+                    return View(model);
                 }
 
                 await _clubRepository.CreateAsync(club);

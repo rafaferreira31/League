@@ -1,0 +1,24 @@
+﻿@model League.Data.Entities.Game
+
+<hr />
+<div class="game-details-container">
+    <div class="club-info">
+        <img src="@ViewBag.VisitedClubEmblem" alt="Visited Club Emblem" class="club-emblem" />
+        <span class="club-name">@Model.VisitedClubName</span>
+    </div>
+
+    <div class="game-result-status">
+        <div class="game-result">
+            <span>@Model.VisitedGoals - @Model.VisitorGoals</span>
+        </div>
+        <div class="game-status">
+            <span>@Model.Status</span>
+        </div>
+    </div>
+
+    <div class="club-info">
+        <img src="@ViewBag.VisitorClubEmblem" alt="Visitor Club Emblem" class="club-emblem" />
+        <span class="club-name">@Model.VisitorClubName</span>
+    </div>
+</div>
+<hr />

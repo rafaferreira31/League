@@ -19,6 +19,17 @@ namespace League.Data.Repositories
                 .FirstOrDefaultAsync(c => c.Name == name);
         }
 
+        public async Task<string> GetClubEmblemById(int id)
+        {
+            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == id);
+            if(club == null)
+            {
+                return null;
+            }
+
+            return club.ImageFullPath;
+        }
+
         public async Task<string> GetClubNameById(int id)
         {
             var club = await _context.Clubs

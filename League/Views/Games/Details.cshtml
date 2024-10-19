@@ -1,47 +1,15 @@
 ﻿@model League.Data.Entities.Game
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Game Details";
 }
 
 <h1>Game Details</h1>
 
+<partial name="_GamesDD" />
+
 <div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GameDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GameDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VisitedClubName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VisitedClubName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VisitorClubName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VisitorClubName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VisitedGoals)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VisitedGoals)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VisitorGoals)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VisitorGoals)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="button-24" role="button">Delete</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="button-Edit" role="button">Edit</a> |
+    <a asp-action="Index" class="button-Back" role="button">Back to List</a>
 </div>

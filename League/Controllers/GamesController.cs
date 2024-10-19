@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using League.Data;
 using League.Data.Entities;
 using League.Data.Repositories;
+using League.Models;
 
 namespace League.Controllers
 {
@@ -23,10 +24,36 @@ namespace League.Controllers
         }
 
         // GET: Games
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_gameRepository.GetAll().OrderBy(g => g.GameDate));
+            var games = _gameRepository.GetAll().OrderBy(g => g.GameDate).ToList();
+
+            var model = new List<GameViewModel>();
+
+            foreach (var game in games)
+            {
+                var visitedClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitedClubId);
+                var visitorClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitorClubId);
+
+                model.Add(new GameViewModel
+                {
+                    Id = game.Id,
+                    GameDate = game.GameDate,
+                    VisitedClubName = game.VisitedClubName,
+                    VisitorClubName = game.VisitorClubName,
+                    VisitedGoals = game.VisitedGoals,
+                    VisitorGoals = game.VisitorGoals,
+                    VisitedClubEmblem = visitedClubEmblem,
+                    VisitorClubEmblem = visitorClubEmblem,
+                    Status = game.Status
+                });
+
+                _gameRepository.UpdateGameStatusAsync(game);
+            }
+
+            return View(model);
         }
+
 
         // GET: Games/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,6 +68,12 @@ namespace League.Controllers
             {
                 return NotFound();
             }
+
+            var visitedClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitedClubId);
+            var visitorClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitorClubId);
+
+            ViewBag.VisitedClubEmblem = visitedClubEmblem;
+            ViewBag.VisitorClubEmblem = visitorClubEmblem;
 
             return View(game);
         }
@@ -66,6 +99,8 @@ namespace League.Controllers
 
                 game.VisitedClubName = visitedName;
                 game.VisitorClubName = visitorName;
+
+                await _gameRepository.UpdateGameStatusAsync(game);
 
                 await _gameRepository.CreateAsync(game);
 
@@ -107,6 +142,8 @@ namespace League.Controllers
             {
                 try
                 {
+                    await _gameRepository.UpdateGameStatusAsync(game);
+
                     var visitedName = await _clubRepository.GetClubNameById(game.VisitedClubId);
                     var visitorName = await _clubRepository.GetClubNameById(game.VisitorClubId);
 
@@ -147,6 +184,12 @@ namespace League.Controllers
             {
                 return NotFound();
             }
+
+            var visitedClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitedClubId);
+            var visitorClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitorClubId);
+
+            ViewBag.VisitedClubEmblem = visitedClubEmblem;
+            ViewBag.VisitorClubEmblem = visitorClubEmblem;
 
             return View(game);
         }

@@ -5,32 +5,28 @@
 }
 
 <h1>Player Details</h1>
+<hr/>
+<br />
 
 <div class="row">
     <div class="col-md-8">
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
+        <dl class="row" style="font-size: 1.5rem">
+            <dt class="col-sm-3" style="margin-bottom:15px">
+                @Html.DisplayNameFor(model => model.FullName)
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FirstName)
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.FullName)
             </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-3">
                 @Html.DisplayNameFor(model => model.BirthDate)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.BirthDate)
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-3">
                 @Html.DisplayNameFor(model => model.Position)
             </dt>
-            <dd class="col-sm-10">
+            <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.Position)
             </dd>
         </dl>
@@ -40,6 +36,7 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="button-24" role="button">Delete</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="button-Edit">Edit</a> |
+    <a asp-action="Index" class="button-Back">Back to List</a>
 </div>

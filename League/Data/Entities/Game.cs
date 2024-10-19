@@ -41,5 +41,16 @@ namespace League.Data.Entities
 
         [Display(Name = "Visitor Club Assigned Cards")]
         public int? VisitorAssignedCards { get; set; }
+
+
+        public GameStatus Status { get; set; }
+
+
+        public enum GameStatus
+        {
+            Scheduled,
+            OnGoing,
+            Finished
+        }
     }
 }

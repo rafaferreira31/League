@@ -4,38 +4,53 @@
     ViewData["Title"] = "ChangeUser";
 }
 
-<h1>ChangeUser</h1>
+<h1>Edit Profile</h1>
+<hr/>
 
 <div class="row">
-    <div class="col-md-4 offset-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
+    <div class="col-md-8 offset-md-2">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
 
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
+                    <div class="form-group-profile">
+                        <label asp-for="FirstName">First Name</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group-profile">
+                        <label asp-for="LastName">Last Name</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group-profile">
+                        <label asp-for="PhoneNumber">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                    </div>
+
+                    <div class="form-group-profile">
+                        <label asp-for="ImageFile" class="control-label">Profile Picture</label>
+                        <input asp-for="ImageFile" class="form-control" type="file" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <hr />
+                    <div class="form-group-profile">
+                        <input type="submit" value="Update" class="button-Edit" /> | 
+                        <a asp-action="ChangePassword" class="button-Change">Change Password</a>
+                    </div>
+                    <div class="text-success">@ViewBag.UserMessage</div>
+                </form>
             </div>
 
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
+            <div class="col-md-6 text-center">
+                <img src="@Model.ImageFullPath" alt="Profile Image" style="max-width: 250px; max-height: 250px; border-radius: 70%;" />
             </div>
-
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Last Name</label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-                <a asp-action="ChangePassword" class="btn btn-success">Change Password</a>
-            </div>
-
-            <div class="text-success">@ViewBag.UserMessage</div>
-        </form>
+        </div>
     </div>
 </div>
 

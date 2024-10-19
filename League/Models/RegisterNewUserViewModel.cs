@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using League.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace League.Models
 {
@@ -20,8 +21,8 @@ namespace League.Models
 
 
         [MaxLength(20, ErrorMessage = "The field {0} only can contain {1} characteres lenght.")]
-
         public string PhoneNumber { get; set; }
+
 
         [Required]
         [MinLength(6)]

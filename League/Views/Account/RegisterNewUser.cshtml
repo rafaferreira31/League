@@ -1,73 +1,88 @@
 ﻿@model League.Models.RegisterNewUserViewModel 
 
-@{
-    ViewData["Title"] = "RegisterNewUser";
-}
-
-<h1>Register New User</h1>
-
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly"></div>
-
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PhoneNumber">Phone Number</label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Confirm">Confirm</label>
-                <input asp-for="Confirm" type="password" class="form-control" />
-                <span asp-validation-for="Confirm" class="text-warning"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SelectedRole" class="control-label">Club</label>
-                <select asp-for="SelectedRole" class="form-control" asp-items="ViewBag.Roles">
-                    <option value="">Select a Role....</option>
-                </select>
-                <span asp-validation-for="SelectedRole" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Register New User" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="custom-header">
+    <h1>Register New User</h1>
 </div>
-<div class="text-success">
-    <p>
-        @ViewBag.Message
-    </p>
+
+<div class="custom-container">
+    <br />
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly"></div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="FirstName"><b>First Name</b></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="LastName"><b>Last Name</b></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="Username"><b>Username</b></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="PhoneNumber"><b>Phone Number</b></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="Password"><b>Password</b></label>
+                    <div class="input-group">
+                        <input asp-for="Password" type="password" class="form-control" id="passwordInput" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()"><i class="fa-regular fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="Confirm"><b>Confirm Password</b></label>
+                    <div class="input-group">
+                        <input asp-for="Confirm" type="password" class="form-control" id="confirmPasswordInput" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" onclick="toggleconfirmPassword()"><i class="fa-regular fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Confirm" class="text-warning"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="SelectedRole" class="control-label">Club</label>
+                    <select asp-for="SelectedRole" class="form-control" asp-items="ViewBag.Roles">
+                        <option value="">Select a Role....</option>
+                    </select>
+                    <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                </div>
+
+                <div class="form-group-profile text-login">
+                    <label asp-for="ImageFile" class="control-label"><b>Profile Image</b></label>
+                    <input asp-for="ImageFile" class="form-control" type="file" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group-profile">
+                    <input type="submit" value="Register New User" class="button-Back" />
+                </div>
+                <div class="text-success">
+                    <p>
+                        @ViewBag.Message
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 
@@ -75,5 +90,24 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
 
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById('passwordInput');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
+        function toggleconfirmPassword() {
+            var passwordInput = document.getElementById('confirmPasswordInput');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+    </script>
+}

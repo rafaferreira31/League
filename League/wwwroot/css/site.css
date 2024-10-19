@@ -1,32 +1,99 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.logo-image{
+.logo-image {
     width: 100px;
     height: 100px;
     margin-right: 50px;
 }
 
+.logo-image-big {
+    width: 500px;
+    height: 500px;
+    background-color: #37003c;
+    border-radius: 50%
+}
+
+.details-arrow {
+    color: rebeccapurple;
+    transition: transform 0.2s;
+}
+
+.details-arrow:hover {
+    transform: scale(1.2);
+}
+
+.form-group-profile {
+    margin-bottom: 10px;
+}
+
+.text-login {
+    font-size: 17px;
+    font-family: "Coolvetica", sans-serif;
+}
+
+.custom-header {
+    width: 100%;
+    background: linear-gradient(to right, #4b0049, #fc196b);
+    color: white;
+    padding: 50px 20px;
+    text-align: left;
+    box-sizing: border-box;
+    margin: 0;
+    left: 0;
+    font-family: "Coolvetica", sans-serif;
+}
+
+.custom-header h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.custom-container {
+    margin-top: 30px;
+
+}
+
+.info-container {
+    display: flex;
+    align-items: center; 
+}
+
+.contact-info {
+    flex: 1; 
+    margin-left:100px;
+    font-size:30px;
+}
+
+.custom-container-about {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 70vh; 
+    text-align: center; 
+}
 
 /*Nav Bar Design*/
 
@@ -129,3 +196,358 @@ body {
     }
 }
 /*End of Not Found Error Page*/
+
+/*Delete Button*/
+.button-24 {
+    background: #FF4742;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-24:hover,
+    .button-24:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #FF4742;
+    }
+
+    .button-24:active {
+        opacity: .5;
+    }
+
+/*End Delete Button*/
+
+
+
+/*Back Button*/
+.button-Back {
+    background: #37003c;
+    border: 1px solid #37003c;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-Back:hover,
+    .button-Back:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #37003c;
+    }
+
+    .button-Back:active {
+        opacity: .5;
+    }
+
+/*End Back Button*/
+
+
+/*Edit Button*/
+.button-Edit {
+    background: #336699;
+    border: 1px solid #336699;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-Edit:hover,
+    .button-Edit:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #336699;
+    }
+
+    .button-Edit:active {
+        opacity: .5;
+    }
+
+/*End Back Button*/
+
+
+/*ChangePass Button*/
+.button-Change {
+    background: #8c8c8c;
+    border: 1px solid #8c8c8c;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-Change:hover,
+    .button-Change:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #8c8c8c;
+    }
+
+    .button-Change:active {
+        opacity: .5;
+    }
+
+/*ChangePass Button*/
+
+
+/*Forgot Button*/
+.button-Forgot {
+    background: #99ccff;
+    border: 1px solid #99ccff;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-Forgot:hover,
+    .button-Forgot:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #99ccff;
+    }
+
+    .button-Forgot:active {
+        opacity: .5;
+    }
+
+/*Forgot Button*/
+
+/*Register Button*/
+.button-Register {
+    background: #fc196b;
+    border: 1px solid #fc196b;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+    .button-Register:hover,
+    .button-Register:active {
+        background-color: initial;
+        background-position: 0 0;
+        color: #fc196b;
+    }
+
+    .button-Register:active {
+        opacity: .5;
+    }
+
+/*Register Button*/
+
+
+/*Game Details & Delete*/
+
+.game-details-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.club-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.club-emblem {
+    width: 150px;
+    height: 150px;
+}
+
+.club-name {
+    margin-top: 5px;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.game-result-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.game-result {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+.game-status {
+    margin-top: 5px;
+    font-size: 1.2rem;
+    color: gray;
+}
+
+/*End Game Details & Delete*/
+
+
+/*Game Index*/
+
+.game-index-game-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-index-game-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.game-index-club-info {
+    display: flex;
+    align-items: center;
+}
+
+.game-index-club-emblem {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.game-index-club-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.game-index-game-result {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 15px;
+    flex-shrink: 0;
+}
+
+.game-index-game-details {
+    display: flex;
+    align-items: center;
+}
+
+.game-index-status {
+    font-size: 0.9rem;
+    color: gray;
+    margin-right: 20px;
+}
+
+.game-index-details-arrow {
+    color: #8c8c8c;
+    font-size: 1.2rem;
+    margin-left: 20px;
+}
+
+/*End Game Index*/

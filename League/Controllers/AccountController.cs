@@ -18,17 +18,20 @@ namespace League.Controllers
         private readonly IMailHelper _mailHelper;
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
+        private readonly IBlobHelper _blobHelper;
 
         public AccountController(
             IUserHelper userHelper,
             IMailHelper mailHelper,
             IConfiguration configuration,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IBlobHelper blobHelper)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _configuration = configuration;
             _userManager = userManager;
+            _blobHelper = blobHelper;
         }
 
 
@@ -95,6 +98,13 @@ namespace League.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
+                    Guid imageId = Guid.Empty;
+
+                    if(model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                    }
+
                     user = new User
                     {
                         FirstName = model.FirstName,
@@ -103,9 +113,6 @@ namespace League.Controllers
                         PhoneNumber = model.PhoneNumber,
                         UserName = model.Username
                     };
-
-                    //TODO: DEPOIS DE FAZER BLOBHELPER, FAZER CODIGO PARA ADICIONAR IMAGEM DE PERFIL DO USER
-
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
@@ -168,6 +175,13 @@ namespace League.Controllers
                 var user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user == null)
                 {
+                    Guid imageId = Guid.Empty;
+
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                    }
+
                     user = new User
                     {
                         FirstName = model.FirstName,
@@ -176,9 +190,6 @@ namespace League.Controllers
                         PhoneNumber = model.PhoneNumber,
                         UserName = model.Username,
                     };
-
-                    //TODO: DEPOIS DE FAZER BLOBHELPER, FAZER CODIGO PARA ADICIONAR IMAGEM DE PERFIL DO USER
-
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
                     if (result != IdentityResult.Success)
@@ -198,11 +209,11 @@ namespace League.Controllers
 
                     //TODO : FAZER ENVIO DO EMAIL PERSONALIZADO
                     Response response = _mailHelper.SendEmail(model.Username, "Email Confirmation",
-                        $"<h1>Email Confirmation</h1>To confirm your email, click this link: <a href=\"{tokenLink}\">Confirm Email</a>");
+                        $"<h1>Email Confirmation</h1>To confirm your email, click this link and reset the password: <a href=\"{tokenLink}\">Confirm Email</a>");
 
                     if (response.IsSuccess)
                     {
-                        ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                        ViewBag.Message = "The instructions to allow the user has been sent to email.";
                         return View(model);
                     }
 
@@ -223,6 +234,7 @@ namespace League.Controllers
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
                 model.PhoneNumber = user.PhoneNumber;
+                model.ImageId = user.ImageId;
             }
 
 
@@ -241,6 +253,12 @@ namespace League.Controllers
                     user.FirstName = model.FirstName;
                     user.LastName = model.LastName;
                     user.PhoneNumber = model.PhoneNumber;
+
+                    if(model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        Guid imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "users");
+                        user.ImageId = imageId;
+                    }
 
                     var response = await _userHelper.UpdateUserAsync(user);
                     if (response.Succeeded)
@@ -315,7 +333,9 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Login");
+            var resetPasswordToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+
+            return RedirectToAction("ResetPassword", new {userId = user.Id, token = resetPasswordToken});
         }
 
 
@@ -360,5 +380,91 @@ namespace League.Controllers
         }
 
 
+        public async Task <IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Email);
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "The email is not registered.");
+                    return View(model);
+                }
+
+                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+                var tokenLink = Url.Action("ResetPassword", "Account", new
+                {
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme);
+
+                Response response = _mailHelper.SendEmail(model.Email, "Password Recover",
+                    $"<h1>Password Reset</h1>To reset the password click in this link: <a href=\"{tokenLink}\">Reset Password</a>");
+
+                if (response.IsSuccess)
+                {
+                    ViewBag.Message = "The instructions to recover your password has been sent to email.";
+                    return View(model);
+                }
+
+                ModelState.AddModelError(string.Empty, "The email couldn't be sent.");
+            }
+
+            return View(model);
+
+        }
+
+
+
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "User Not Found!");
+                    return View(model);
+                }
+
+                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Password reset successful.";
+                    return View(model);
+                }
+
+                ModelState.AddModelError(string.Empty, "The password couldn't be reset.");
+            }
+
+            return View(model);
+        }
     }
 }
