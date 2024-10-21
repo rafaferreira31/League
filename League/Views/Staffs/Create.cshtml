@@ -48,7 +48,14 @@
             <hr />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
+                @if (User.IsInRole("ClubRepresentant"))
+                {
+                    <a asp-action="Manage" class="button-Back">Back to List</a>
+                }
+                else
+                {
+                    <a asp-action="Index" class="button-Back">Back to List</a>
+                }
             </div>
         </form>
     </div>

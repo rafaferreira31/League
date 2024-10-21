@@ -39,6 +39,10 @@ namespace League.Models
         public string SelectedRole { get; set; }
 
 
+        [Display(Name = "Club")]
+        public int ClubId { get; set; }
+
+
         [Display(Name = "Profile Image")]
         public IFormFile? ImageFile { get; set; }
     }

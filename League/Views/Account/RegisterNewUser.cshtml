@@ -1,4 +1,4 @@
-﻿@model League.Models.RegisterNewUserViewModel 
+﻿@model League.Models.RegisterNewUserViewModel
 
 <div class="custom-header">
     <h1>Register New User</h1>
@@ -59,11 +59,19 @@
                 </div>
 
                 <div class="form-group-profile text-login">
-                    <label asp-for="SelectedRole" class="control-label">Club</label>
-                    <select asp-for="SelectedRole" class="form-control" asp-items="ViewBag.Roles">
+                    <label asp-for="SelectedRole" class="control-label">Role</label>
+                    <select asp-for="SelectedRole" class="form-control" asp-items="ViewBag.Roles" id="roleSelect">
                         <option value="">Select a Role....</option>
                     </select>
                     <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                </div>
+
+                <div class="form-group-profile text-login" id="clubSelect" style="display:none;">
+                    <label asp-for="ClubId" class="control-label">Club</label>
+                    <select asp-for="ClubId" class="form-control" asp-items="ViewBag.Clubs">
+                        <option value="">Select a Club....</option>
+                    </select>
+                    <span asp-validation-for="ClubId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group-profile text-login">
@@ -85,13 +93,25 @@
     </div>
 </div>
 
-
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var roleSelect = document.getElementById('roleSelect');
+            var clubSelectDiv = document.getElementById('clubSelect');
+
+            roleSelect.addEventListener('change', function () {
+                if (this.value === 'ClubRepresentant') {
+                    clubSelectDiv.style.display = 'block';
+                } else {
+                    clubSelectDiv.style.display = 'none';
+                }
+            });
+        });
+
         function togglePassword() {
             var passwordInput = document.getElementById('passwordInput');
             if (passwordInput.type === 'password') {

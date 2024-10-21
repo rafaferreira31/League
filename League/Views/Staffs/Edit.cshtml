@@ -61,6 +61,13 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("ClubRepresentant"))
+    {
+        <a asp-action="Manage" class="button-Back">Back to List</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="button-Back">Back to List</a>
+    }
 </div>
 

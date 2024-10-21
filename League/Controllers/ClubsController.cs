@@ -4,6 +4,7 @@ using League.Helpers;
 using League.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace League.Controllers
 {
@@ -12,18 +13,21 @@ namespace League.Controllers
         private readonly IClubRepository _clubRepository;
         private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
         private readonly DataContext _context;
 
         public ClubsController(
             IClubRepository clubRepository,
             IBlobHelper blobHelper,
             IConverterHelper converterHelper,
+            IUserHelper userHelper,
             DataContext context
             )
         {
             _clubRepository = clubRepository;
             _blobHelper = blobHelper;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
             _context = context;
         }
 
@@ -107,8 +111,13 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var model = _converterHelper.ToClubViewModel(club);
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return Forbid(); //TODO: Alterar para view de erro personalizada
+            }
 
+            var model = _converterHelper.ToClubViewModel(club);
             return View(model);
         }
 
@@ -119,6 +128,12 @@ namespace League.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ClubViewModel model)
         {
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != model.Id)
+            {
+                return Forbid(); //TODO: Alterar para view de erro personalizada
+            }
+
             if (ModelState.IsValid)
             {
                 var duplicatedClub = await _clubRepository.GetByNameAsync(model.Name);
@@ -169,6 +184,12 @@ namespace League.Controllers
                 return NotFound();
             }
 
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return Forbid(); //TODO: Alterar para view de erro personalizada
+            }
+
             return View(club);
         }
 
@@ -178,9 +199,29 @@ namespace League.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var club = await _clubRepository.GetByIdAsync(id);
+
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return Forbid(); //TODO: Alterar para view de erro personalizada
+            }
+
             await _clubRepository.DeleteAsync(club);
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Manage()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            if (user.ClubId == null || user == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("Details", new { id = user.ClubId });
         }
     }
 }

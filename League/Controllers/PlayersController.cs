@@ -14,18 +14,21 @@ namespace League.Controllers
         private readonly IClubRepository _clubRepository;
         private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
         public PlayersController(
             IPlayerRepository playerRepository,
             IClubRepository clubRepository,
             IBlobHelper blobHelper,
-            IConverterHelper converterHelper
+            IConverterHelper converterHelper,
+            IUserHelper userHelper
             )
         {
             _playerRepository = playerRepository;
             _clubRepository = clubRepository;
             _blobHelper = blobHelper;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         // GET: Players
@@ -238,6 +241,21 @@ namespace League.Controllers
             var player = await _playerRepository.GetByIdAsync(id);
             await _playerRepository.DeleteAsync(player);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Manage()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            if (user.ClubId == null || user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var players = await _playerRepository.GetPlayersByClubAsync(user.ClubId.Value);
+
+            return View("Index", players);
         }
     }
 }

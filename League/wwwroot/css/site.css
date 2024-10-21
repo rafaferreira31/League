@@ -39,9 +39,9 @@ body {
     transition: transform 0.2s;
 }
 
-.details-arrow:hover {
-    transform: scale(1.2);
-}
+    .details-arrow:hover {
+        transform: scale(1.2);
+    }
 
 .form-group-profile {
     margin-bottom: 10px;
@@ -64,36 +64,83 @@ body {
     font-family: "Coolvetica", sans-serif;
 }
 
-.custom-header h1 {
-    margin: 0;
-    padding: 0;
-    font-size: 3rem;
-    font-weight: bold;
-}
+    .custom-header h1 {
+        margin: 0;
+        padding: 0;
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    .custom-header h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 2rem;
+        color: lightgray;
+        font-weight: bold;
+    }
+
 
 .custom-container {
     margin-top: 30px;
-
 }
 
 .info-container {
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
 .contact-info {
-    flex: 1; 
-    margin-left:100px;
-    font-size:30px;
+    flex: 1;
+    margin-left: 100px;
+    font-size: 30px;
 }
 
 .custom-container-about {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 70vh; 
-    text-align: center; 
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    text-align: center;
 }
+
+.custom-header-crud {
+    width: 100%;
+    background: linear-gradient(to right, #4b0049, #fc196b);
+    color: white;
+    padding: 50px 20px;
+    text-align: left;
+    box-sizing: border-box;
+    margin: 0;
+    left: 0;
+    font-family: "Coolvetica", sans-serif;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+    .custom-header-crud h1 {
+        margin: 0;
+        padding: 0;
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+
+.cruds-images {
+    margin-left: 70px;
+    width: 300px;
+    height: 450px;
+    max-width: 100%;
+    height: auto;
+}
+
+.cruds-images-DD {
+    width: 300px;
+    height: 450px;
+    max-width: 100%;
+    height: auto;
+}
+
 
 /*Nav Bar Design*/
 

@@ -19,5 +19,8 @@ namespace League.Data.Entities
         public string ImageFullPath => ImageId == Guid.Empty
             ? $"https://nosleague.azurewebsites.net/images/noimage.png"
             : $"https://nosleague.blob.core.windows.net/users/{ImageId}";
+
+
+        public int? ClubId { get; set; }
     }
 }

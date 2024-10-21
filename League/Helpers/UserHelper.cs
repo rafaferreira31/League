@@ -23,6 +23,12 @@ namespace League.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
+        public Task AddUserToClubAsync(User user, int clubId)
+        {
+            user.ClubId = clubId;
+            return UpdateUserAsync(user);
+        }
+
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
             await _userManager.AddToRoleAsync(user, roleName);

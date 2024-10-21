@@ -35,5 +35,7 @@ namespace League.Helpers
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        Task AddUserToClubAsync(User user, int clubId);
     } 
 }

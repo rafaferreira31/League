@@ -13,17 +13,20 @@ namespace League.Controllers
         private readonly IClubRepository _clubRepository;
         private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
         public StaffsController(
             IStaffRepository staffRepository,
             IClubRepository clubRepository,
             IBlobHelper blobHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            IUserHelper userHelper)
         {
             _staffRepository = staffRepository;
             _clubRepository = clubRepository;
             _blobHelper = blobHelper;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         // GET: Staffs
@@ -208,6 +211,21 @@ namespace League.Controllers
             var staff = await _staffRepository.GetByIdAsync(id);
             await _staffRepository.DeleteAsync(staff);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Manage()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            if(user == null || user.ClubId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var staff = await _staffRepository.GetStaffByClubAsync(user.ClubId.Value);
+
+            return View("Index", staff);
         }
     }
 }

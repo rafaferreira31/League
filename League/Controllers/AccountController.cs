@@ -1,4 +1,5 @@
 ﻿using League.Data.Entities;
+using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
 using Microsoft.AspNetCore.Identity;
@@ -19,19 +20,22 @@ namespace League.Controllers
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
         private readonly IBlobHelper _blobHelper;
+        private readonly IClubRepository _clubRepository;
 
         public AccountController(
             IUserHelper userHelper,
             IMailHelper mailHelper,
             IConfiguration configuration,
             UserManager<User> userManager,
-            IBlobHelper blobHelper)
+            IBlobHelper blobHelper,
+            IClubRepository clubRepository)
         {
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _configuration = configuration;
             _userManager = userManager;
             _blobHelper = blobHelper;
+            _clubRepository = clubRepository;
         }
 
 
@@ -157,6 +161,8 @@ namespace League.Controllers
 
         public IActionResult RegisterNewUser()
         {
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
             ViewBag.Roles = new SelectList(new List<string>
             {
                 "Admin",
@@ -199,6 +205,7 @@ namespace League.Controllers
                     }
 
                     await _userHelper.AddUserToRoleAsync(user, model.SelectedRole);
+                    await _userHelper.AddUserToClubAsync(user, model.ClubId);
 
                     string myToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     string tokenLink = Url.Action("ConfirmEmail", "Account", new
