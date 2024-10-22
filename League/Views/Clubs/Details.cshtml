@@ -1,97 +1,114 @@
 ﻿@model League.Data.Entities.Club
 
-@{
-    ViewData["Title"] = "Details";
-}
+<div class="custom-header-crud">
+    <h1>Details</h1>
+</div>
 
-<h1>Club Details</h1>
-
+<hr />
+<br />
 <div>
-    <hr />
     <div class="row">
         <div class="col-md-8">
-            <dl class="row">
-                <dt class="col-sm-2">
+            <dl class="row" style="font-size: 1.5rem">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Name)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Name)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.FoundingDate)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.FoundingDate)
                 </dd>
-                <dt class="col-sm-2">
+                <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Stadium)
                 </dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-9">
                     @Html.DisplayFor(model => model.Stadium)
                 </dd>
             </dl>
         </div>
         <div class="col-md-4">
-            <img src="@Url.Content(Model.ImageFullPath)" alt="Picture" style="width: 300px; height: 450px; max-width: 100%; height: auto ">
+            <img src="@Url.Content(Model.ImageFullPath)" alt="Club Emblem" style="width: 300px; height: 450px; max-width: 100%; height: auto;">
         </div>
-        @if (Model.Players != null && Model.Players.Any())
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>BirthDate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var player in Model.Players)
-                    {
-                        <tr>
-                            <td>@player.FirstName @player.LastName</td>
-                            <td>@player.Position</td>
-                            <td>@player.BirthDate.ToString("dd/MM/yyyy")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No players registered for this club.</p>
-        }
-
-
-        @if (Model.Staffs != null && Model.Staffs.Any())
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Function</th>
-                        <th>BirthDate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var staff in Model.Staffs)
-                    {
-                        <tr>
-                            <td>@staff.FullName</td>
-                            <td>@staff.FunctionPerformed</td>
-                            <td>@staff.BirthDate.ToString("dd/MM/yyyy")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No staffs registered for this club.</p>
-        }
     </div>
 
+    <br />
+    <br />
+
+    @if (Model.Players != null && Model.Players.Any())
+    {
+        <h3 class="text-login" style="font-size:2.3rem;">Players</h3>
+        <hr />
+        <div class="container">
+            <div class="row">
+                @foreach (var player in Model.Players)
+                {
+                    <div class="col-md-2 mb-3">
+                        <a asp-controller="Players" asp-action="Details" asp-route-id="@player.Id" style="text-decoration: none; color: inherit;">
+                            <div class="card h-100 shadow-sm" style="max-width: 150px;">
+                                <div style="width: 150px; height: 150px; overflow: hidden;">
+                                    <img src="@Url.Content(player.ImageFullPath)" alt="Player Image" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <div class="card-body" style="padding: 0.5rem; text-align: center;">
+                                    <h6 class="card-title" style="font-size: 0.9rem;">@player.FirstName @player.LastName</h6>
+                                    <p class="card-text" style="font-size: 0.7rem;">
+                                        <strong>Position:</strong> @player.Position
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No players registered for this club.</p>
+    }
+    <br />
+    <br />  
+
+    @if (Model.Staffs != null && Model.Staffs.Any())
+    {
+        <h3 class="text-login" style="font-size:2.3rem;">Staff</h3>
+        <hr />
+        <div class="container">
+            <div class="row">
+                @foreach (var staff in Model.Staffs)
+                {
+                    <div class="col-md-2 mb-3">
+                        <a asp-controller="Staffs" asp-action="Details" asp-route-id="@staff.Id" style="text-decoration: none; color: inherit;">
+                            <div class="card h-100 shadow-sm" style="max-width: 150px;">
+                                <div style="width: 150px; height: 150px; overflow: hidden;">
+                                    <img src="@Url.Content(staff.ImageFullPath)" alt="Staff Image" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <div class="card-body" style="padding: 0.5rem; text-align: center;">
+                                    <h6 class="card-title" style="font-size: 0.9rem;">@staff.FullName</h6>
+                                    <p class="card-text" style="font-size: 0.7rem;">
+                                        <strong>Function:</strong> @staff.FunctionPerformed
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No staff registered for this club.</p>
+    }
 </div>
+<br />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="button-Edit">Edit</a> |
+    <a asp-action="Index" class="button-Back">Back to List</a>
 </div>
+
+<br />
+<br />

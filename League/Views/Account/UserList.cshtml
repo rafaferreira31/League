@@ -1,0 +1,33 @@
+﻿@model IEnumerable<League.Models.UserWithRolesViewModel>
+
+<div class="custom-header">
+    <h1>Users</h1>
+</div>
+
+<div class="custom-container">
+    <br />
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <a asp-action="Profile" asp-route-id="@item.User.Id" style="text-decoration: none; color: inherit;">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(item.User.ImageFullPath))
+                        {
+                            <div style="width: 100%; height: 300px; overflow: hidden;">
+                                <img src="@Url.Content(item.User.ImageFullPath)" alt="Player Image" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@item.User.FirstName @item.User.LastName</h5>
+                            <p class="card-text">
+                                <strong>Email: </strong> @item.User.UserName<br />
+                                <strong>Role:</strong> @item.Role
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>

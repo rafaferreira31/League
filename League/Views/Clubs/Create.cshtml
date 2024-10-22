@@ -1,39 +1,20 @@
 ﻿@model League.Models.ClubViewModel
 
-@{
-    ViewData["Title"] = "Create";
-}
-
-<h1>Create Club</h1>
+<div class="custom-header-crud">
+    <h1>New Club</h1>
+</div>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <partial name="_ClubsCE" />
+
             <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" type="file" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FoundingDate" class="control-label"></label>
-                <input asp-for="FoundingDate" class="form-control" />
-                <span asp-validation-for="FoundingDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Stadium" class="control-label"></label>
-                <input asp-for="Stadium" class="form-control" />
-                <span asp-validation-for="Stadium" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
+                <button type="submit" value="Create" class="button-Edit"><i class="fa fa-save"></i> Create</button> |
+                <a asp-action="Index" class="button-Back">Back</a>
 
             </div>
         </form>

@@ -1,61 +1,38 @@
 ﻿@model IEnumerable<League.Data.Entities.Staff>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
+<div class="custom-header-crud">
+    <h1>Staffs</h1>
+</div>
+<br />
+<hr />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="button-Back"><i class="fas fa-plus"> NEW </i></a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FunctionPerformed)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<br />
+
+<div class="container">
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BirthDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FunctionPerformed)
-                </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageFullPath))
-                    {
-                        <img src="@Url.Content(item.ImageFullPath)" alt="" style="width: 50px; height: 75px; max-width: 100%; height: auto ">
-                    }
-                </td>
-                <td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="col-md-3 mb-4">
+                <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(item.ImageFullPath))
+                        {
+                            <div style="width: 100%; height: 300px; overflow: hidden;">
+                                <img src="@Url.Content(item.ImageFullPath)" alt="Staff Image" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@item.FullName</h5>
+                            <p class="card-text">
+                                <strong>Birth Date:</strong> @item.BirthDate.ToString("dd/MM/yyyy")<br />
+                                <strong>Position:</strong> @item.FunctionPerformed
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

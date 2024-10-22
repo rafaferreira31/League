@@ -1,10 +1,8 @@
 ﻿@model League.Data.Entities.Game
 
-@{
-    ViewData["Title"] = "Edit";
-}
-
-<h1>Edit Game</h1>
+<div class="custom-header-crud">
+    <h1>Edit Game</h1>
+</div>
 
 <hr />
 <div class="row">
@@ -15,8 +13,8 @@
             <partial name="_GamesCE" />
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="Index">Back to List</a>
+                <input type="submit" value="Save" class="button-Edit" />
+                <a asp-action="Index" class="button-Back">Back</a>
             </div>
         </form>
     </div>

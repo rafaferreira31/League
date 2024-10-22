@@ -1,42 +1,32 @@
 ﻿@model League.Data.Entities.Game
 
-<div class="form-group">
+<div class="form-group-profile text-login">
     <label asp-for="GameDate" class="control-label"></label>
     <input asp-for="GameDate" id="gameDate" class="form-control" />
     <span asp-validation-for="GameDate" class="text-danger"></span>
 </div>
-<div class="form-group">
+<div class="form-group-profile text-login">
     <label asp-for="VisitedClubId" class="control-label">Home Club</label>
     <select asp-for="VisitedClubId" class="form-control" asp-items="ViewBag.Clubs" id="visitedClub">
         <option value="">Select a Club....</option>
     </select>
     <span asp-validation-for="VisitedClubId" class="text-danger"></span>
 </div>
-<div class="form-group">
+<div class="form-group-profile text-login">
     <label asp-for="VisitorClubId" class="control-label">Away Club</label>
     <select asp-for="VisitorClubId" class="form-control" asp-items="ViewBag.Clubs" id="visitorClub">
         <option value="">Select a Club....</option>
     </select>
     <span asp-validation-for="VisitorClubId" class="text-danger"></span>
 </div>
-<div class="form-group" id="visitedGoalsGroup" style="display: none;">
+<div class="form-group-profile text-login" id="visitedGoalsGroup" style="display: none;">
     <label asp-for="VisitedGoals" class="control-label"></label>
     <input asp-for="VisitedGoals" id="visitedGoals" class="form-control" />
     <span asp-validation-for="VisitedGoals" class="text-danger"></span>
 </div>
-<div class="form-group" id="visitorGoalsGroup" style="display: none;">
+<div class="form-group-profile text-login" id="visitorGoalsGroup" style="display: none;">
     <label asp-for="VisitorGoals" class="control-label"></label>
     <input asp-for="VisitorGoals" id="visitorGoals" class="form-control" />
     <span asp-validation-for="VisitorGoals" class="text-danger"></span>
-</div>
-<div class="form-group" id="visitedAssignedCardsGroup" style="display: none;">
-    <label asp-for="VisitedAssignedCards" class="control-label"></label>
-    <input asp-for="VisitedAssignedCards" id="visitedAssignedCards" class="form-control" />
-    <span asp-validation-for="VisitedAssignedCards" class="text-danger"></span>
-</div>
-<div class="form-group" id="visitorAssignedCardsGroup" style="display: none;">
-    <label asp-for="VisitorAssignedCards" class="control-label"></label>
-    <input asp-for="VisitorAssignedCards" id="visitorAssignedCards" class="form-control" />
-    <span asp-validation-for="VisitorAssignedCards" class="text-danger"></span>
 </div>
 <hr />

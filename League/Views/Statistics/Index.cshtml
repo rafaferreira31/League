@@ -1,0 +1,32 @@
+﻿@model IEnumerable<League.Models.ClubStatisticsViewModel>
+
+<div class="custom-header-crud">
+    <h1>Statistics</h1>
+</div>
+<br />
+<br />
+<table class="table table-hover text-center">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Club</th>
+            <th>Games Played</th>
+            <th>Goals Scored</th>
+            <th>Goals Conceded</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var club in Model.Select((value, index) => new { Club = value, Rank = index + 1 }))
+        {
+                <tr>
+                    <td><strong>@club.Rank.</strong></td>
+                    <td>@club.Club.ClubName</td>
+                    <td>@club.Club.GamesPlayed</td>
+                    <td>@club.Club.GoalsScored</td>
+                    <td>@club.Club.GoalsConceded</td>
+                    <td><strong>@club.Club.Points</strong></td>
+                </tr>
+        }
+    </tbody>
+</table>

@@ -236,6 +236,7 @@ namespace League.Controllers
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             var model = new ChangeUserViewModel();
+
             if (user != null)
             {
                 model.FirstName = user.FirstName;
@@ -243,7 +244,6 @@ namespace League.Controllers
                 model.PhoneNumber = user.PhoneNumber;
                 model.ImageId = user.ImageId;
             }
-
 
             return View(model);
         }
@@ -283,6 +283,77 @@ namespace League.Controllers
                 }
             }
 
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> ChangeUserAdmin()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+            var role = await _userManager.GetRolesAsync(user);
+            var model = new ChangeUserAdminViewModel();
+
+            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+
+            ViewBag.Roles = new SelectList(new List<string>
+            {
+                "Admin",
+                "FederationEmpolyee",
+                "ClubRepresentant",
+            });
+
+            if (user != null)
+            {
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.UserName = user.UserName;
+                model.PhoneNumber = user.PhoneNumber;
+                model.ImageId = user.ImageId;
+                model.SelectedRole = role.FirstOrDefault();
+            }
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserAdmin(ChangeUserAdminViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
+                if (user != null)
+                {
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.UserName = model.UserName;
+
+                    var result = await _userHelper.UpdateUserAsync(user);
+                    if(result != IdentityResult.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                        return View(model);
+                    }
+
+                    await _userHelper.AddUserToRoleAsync(user, model.SelectedRole);
+                    await _userHelper.AddUserToClubAsync(user, model.ClubId);
+
+                    if (result.Succeeded)
+                    {
+                        ViewBag.UserMessage = "User updated!";
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User not found.");
+                }
+            }
             return View(model);
         }
 
@@ -389,13 +460,13 @@ namespace League.Controllers
 
         public async Task <IActionResult> Profile()
         {
-            var user = await _userManager.GetUserAsync(User);
-
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
             }
 
+            
             return View(user);
         }
 
@@ -472,6 +543,24 @@ namespace League.Controllers
             }
 
             return View(model);
+        }
+
+
+        public async Task<IActionResult> UserList()
+        {
+            var users = await _userHelper.GetAllUsersAsync();
+            var userListWithRoles = new List<UserWithRolesViewModel>();
+
+            foreach (var user in users)
+            {
+                var userRole = await _userHelper.GetUserRoleAsync(user);
+                userListWithRoles.Add(new UserWithRolesViewModel
+                {
+                    User = user,
+                    Role = userRole
+                });
+            }
+            return View(userListWithRoles);
         }
     }
 }

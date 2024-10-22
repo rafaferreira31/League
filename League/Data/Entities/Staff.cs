@@ -15,6 +15,7 @@ namespace League.Data.Entities
         public string LastName { get; set; }
 
 
+        [Display(Name ="Full Name")]
         public string FullName => $"{FirstName} {LastName}";
 
 
@@ -25,6 +26,7 @@ namespace League.Data.Entities
 
 
         [Required]
+        [Display(Name = "Function")]
         public string FunctionPerformed { get; set; }
 
 

@@ -1,60 +1,61 @@
 ﻿@model League.Data.Entities.User
 
-@{
-    ViewData["Title"] = "Profile";
-}
+<div class="custom-header">
+    <h1>Profile</h1>
+</div>
 
-<h2>Profile</h2>
+<div class="custom-container">
+    <br />
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group-profile">
+                <label>Name</label>
+                <input class="form-control" value="@Model.FullName" readonly />
+            </div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="form-group-profile">
-            <label>Name</label>
-            <input class="form-control" value="@Model.FullName" readonly />
+            <div class="form-group-profile">
+                <label>Email</label>
+                <input class="form-control" value="@Model.Email" readonly />
+            </div>
+
+            <div class="form-group-profile">
+                <label>Phone Number</label>
+                <input class="form-control" value="@Model.PhoneNumber" readonly />
+            </div>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group-profile">
+                    <label>Role</label>
+                    <input class="form-control" value="Admin" readonly />
+                </div>
+            }
+            else if (User.IsInRole("FederationEmpolyee"))
+            {
+                <div class="form-group-profile">
+                    <label>Role</label>
+                    <input class="form-control" value="Federation Empolyee" readonly />
+                </div>
+            }
+            else if (User.IsInRole("ClubRepresentant"))
+            {
+                <div class="form-group-profile">
+                    <label>Role</label>
+                    <input class="form-control" value="Club Representant" readonly />
+                </div>
+            }
         </div>
 
-        <div class="form-group-profile">
-            <label>Email</label>
-            <input class="form-control" value="@Model.Email" readonly />
+        <div class="col-md-4">
+            <img src="@Model.ImageFullPath" alt="Profile Image" style="max-width: 250px; max-height: 250px; border-radius: 70%; margin-left:100px" />
         </div>
-
-        <div class="form-group-profile">
-            <label>Phone Number</label>
-            <input class="form-control" value="@Model.PhoneNumber" readonly />
-        </div>
-
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="form-group-profile">
-                <label>Role</label>
-                <input class="form-control" value="Admin" readonly />
-            </div>
-        }
-        else if (User.IsInRole("FederationEmpolyee"))
-        {
-            <div class="form-group-profile">
-                <label>Role</label>
-                <input class="form-control" value="Federation Empolyee" readonly />
-            </div>
-        }
-        else if (User.IsInRole("ClubRepresentant"))
-        {
-            <div class="form-group-profile">
-                <label>Role</label>
-                <input class="form-control" value="Club Representant" readonly />
-            </div>
-        }
-    </div>
-
-    <div class="col-md-4">
-        <img src="@Model.ImageFullPath" alt="Profile Image" style="max-width: 250px; max-height: 250px; border-radius: 70%; margin-left:100px" />
     </div>
 </div>
 <br />
 <br />
 
 <div class="form-group">
-    <a asp-action="ChangeUser" class="button-Edit">Edit Profile</a> | 
+    <a asp-action="ChangeUser" class="button-Edit">Edit Profile</a> |
     <a asp-action="ChangePassword" class="button-Change">Change Password</a> |
     <a asp-action="Index" class="button-Back"><i class="fa fa-chevron-left"></i> Back to List</a>
 </div>

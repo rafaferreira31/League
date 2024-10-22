@@ -40,7 +40,7 @@ namespace League.Models
 
 
         [Display(Name = "Club")]
-        public int ClubId { get; set; }
+        public int? ClubId { get; set; }
 
 
         [Display(Name = "Profile Image")]

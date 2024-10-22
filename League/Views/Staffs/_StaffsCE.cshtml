@@ -1,0 +1,36 @@
+﻿@model League.Models.StaffViewModel
+
+<div class="form-group-profile text-login">
+    <label asp-for="FirstName" class="control-label"></label>
+    <input asp-for="FirstName" class="form-control" />
+    <span asp-validation-for="FirstName" class="text-danger"></span>
+</div>
+<div class="form-group-profile text-login">
+    <label asp-for="LastName" class="control-label"></label>
+    <input asp-for="LastName" class="form-control" />
+    <span asp-validation-for="LastName" class="text-danger"></span>
+</div>
+<div class="form-group-profile text-login">
+    <label asp-for="BirthDate" class="control-label"></label>
+    <input asp-for="BirthDate" class="form-control" />
+    <span asp-validation-for="BirthDate" class="text-danger"></span>
+</div>
+<div class="form-group-profile text-login">
+    <label asp-for="FunctionPerformed" class="control-label">Function</label>
+    <select asp-for="FunctionPerformed" class="form-control" asp-items="ViewBag.Functions">
+        <option value="">Select a Function....</option>
+    </select>
+    <span asp-validation-for="FunctionPerformed" class="text-danger"></span>
+</div>
+<div class="form-group-profile text-login">
+    <label asp-for="ClubId" class="control-label">Club</label>
+    <select asp-for="ClubId" class="form-control" asp-items="ViewBag.Clubs">
+        <option value="">Select Club....</option>
+    </select>
+    <span asp-validation-for="ClubId" class="text-danger"></span>
+</div>
+<div class="form-group-profile text-login">
+    <label asp-for="ImageFile" class="control-label"></label>
+    <input asp-for="ImageFile" class="form-control" type="file" />
+    <span asp-validation-for="ImageFile" class="text-danger"></span>
+</div>

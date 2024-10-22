@@ -2,6 +2,7 @@
 using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
@@ -111,11 +112,11 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            if (user.ClubId != club.Id)
-            {
-                return Forbid(); //TODO: Alterar para view de erro personalizada
-            }
+            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            //if (user.ClubId != club.Id)
+            //{
+            //    return Forbid(); //TODO: Alterar para view de erro personalizada
+            //}
 
             var model = _converterHelper.ToClubViewModel(club);
             return View(model);
@@ -128,11 +129,11 @@ namespace League.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ClubViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            if (user.ClubId != model.Id)
-            {
-                return Forbid(); //TODO: Alterar para view de erro personalizada
-            }
+            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            //if (user.ClubId != model.Id)
+            //{
+            //    return Forbid(); //TODO: Alterar para view de erro personalizada
+            //}
 
             if (ModelState.IsValid)
             {
@@ -184,11 +185,11 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            if (user.ClubId != club.Id)
-            {
-                return Forbid(); //TODO: Alterar para view de erro personalizada
-            }
+            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            //if (user.ClubId != club.Id)
+            //{
+            //    return Forbid(); //TODO: Alterar para view de erro personalizada
+            //}
 
             return View(club);
         }
@@ -200,11 +201,11 @@ namespace League.Controllers
         {
             var club = await _clubRepository.GetByIdAsync(id);
 
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            if (user.ClubId != club.Id)
-            {
-                return Forbid(); //TODO: Alterar para view de erro personalizada
-            }
+            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            //if (user.ClubId != club.Id)
+            //{
+            //    return Forbid(); //TODO: Alterar para view de erro personalizada
+            //}
 
             await _clubRepository.DeleteAsync(club);
 

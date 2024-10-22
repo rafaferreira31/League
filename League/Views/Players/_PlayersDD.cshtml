@@ -1,0 +1,29 @@
+﻿@model League.Data.Entities.Player
+
+<div class="row">
+    <div class="col-md-8">
+        <dl class="row" style="font-size: 1.5rem">
+            <dt class="col-sm-3" style="margin-bottom:15px">
+                @Html.DisplayNameFor(model => model.FullName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.BirthDate)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Position)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Position)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <img src="@Url.Content(Model.ImageFullPath)" alt="Picture" class="cruds-images-DD">
+    </div>
+</div>

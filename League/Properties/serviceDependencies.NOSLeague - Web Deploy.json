@@ -1,12 +1,28 @@
 {
   "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_17019F5389",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/leaguedbserver/databases/League_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    },
     "storage1": {
-      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/BlobConnectionString_BE85087F4F, /subscriptions/17865594-5442-459d-a0f7-686d680e2355/resourcegroups/NOSLeagueResourceGroup/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/BlobConnectionString_20E0E6BEF0",
+      "ignored": "true",
+      "type": "storage",
+      "connectionId": "Blob:ConnectionString"
+    },
+    "identityapp1": {
+      "ignored": "true",
+      "type": "identityapp"
+    },
+    "storage2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/BlobConnection_518FF421FC, /subscriptions/17865594-5442-459d-a0f7-686d680e2355/resourcegroups/NOSLeagueResourceGroup/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/BlobConnection_5F7DF795AC",
       "secretStore": "AzureAppSettings",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/nosleague",
       "type": "storage.azure",
-      "connectionId": "Blob:ConnectionString",
-      "dynamicId": null
+      "connectionId": "BlobConnection"
     }
   }
 }

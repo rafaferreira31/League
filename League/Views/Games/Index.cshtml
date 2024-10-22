@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<League.Models.GameViewModel>
 
 @{
-    ViewData["Title"] = "Games";
     var groupedGames = Model.GroupBy(g => g.GameDate.Date).OrderBy(g => g.Key);
 }
 
-<h1>Games</h1>
-
+<div class="custom-header-crud">
+    <h1>Games</h1>
+</div>
+<br />
+<hr />
 <p>
     <a asp-action="Create" class="button-Back" role="button"><i class="fas fa-plus"> NEW </i></a>
 </p>

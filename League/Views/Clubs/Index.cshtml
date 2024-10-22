@@ -1,55 +1,38 @@
 ﻿@model IEnumerable<League.Data.Entities.Club>
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Clubs</h1>
-
+<div class="custom-header-crud">
+    <h1>Clubs</h1>
+</div>
+<br />
+<hr />
 <p>
-    <a asp-action="Create">Create New Club</a>
+    <a asp-action="Create" class="button-Back"><i class="fas fa-plus"> NEW </i></a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FoundingDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stadium)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<br />
+
+<div class="container">
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageFullPath))
-                    {
-                        <img src="@Url.Content(item.ImageFullPath)" alt="Emblem" style="width: 50px; height: 75px; max-width: 100%; height: auto ">
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FoundingDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stadium)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="col-md-3 mb-4">
+                <a asp-action="Details" asp-route-id="@item.Id" style="text-decoration: none; color: inherit;">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(item.ImageFullPath))
+                        {
+                            <div style="width: 100%; height: 300px; overflow: hidden;">
+                                <img src="@Url.Content(item.ImageFullPath)" alt="Club Emblem" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">
+                                <strong>Birth Date:</strong> @item.FoundingDate.ToString("dd/MM/yyyy")<br />
+                                <strong>Position:</strong> @item.Stadium
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

@@ -1,6 +1,8 @@
-﻿using League.Data.Entities;
+﻿using League.Data;
+using League.Data.Entities;
 using League.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace League.Helpers
 {
@@ -9,12 +11,14 @@ namespace League.Helpers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly DataContext _context;
 
-        public UserHelper(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+        public UserHelper(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, DataContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
 
@@ -23,7 +27,7 @@ namespace League.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
-        public Task AddUserToClubAsync(User user, int clubId)
+        public Task AddUserToClubAsync(User user, int? clubId)
         {
             user.ClubId = clubId;
             return UpdateUserAsync(user);
@@ -66,6 +70,11 @@ namespace League.Helpers
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
@@ -74,6 +83,13 @@ namespace League.Helpers
         public async Task<User> GetUserByIdAsync(string userId)
         {
             return await _userManager.FindByIdAsync(userId);
+        }
+
+        public async Task<string> GetUserRoleAsync(User user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles.FirstOrDefault();
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
@@ -109,5 +125,6 @@ namespace League.Helpers
         {
             return _signInManager.CheckPasswordSignInAsync(user, password, false);
         }
+
     }
 }

@@ -35,14 +35,6 @@ namespace League.Data.Entities
         public int? VisitorGoals { get; set; }
 
 
-        [Display(Name = "Visited Club Assigned Cards")]
-        public int? VisitedAssignedCards { get; set; }
-
-
-        [Display(Name = "Visitor Club Assigned Cards")]
-        public int? VisitorAssignedCards { get; set; }
-
-
         public GameStatus Status { get; set; }
 
 
