@@ -1,0 +1,45 @@
+﻿<div class="container-403">
+    <div class="error-code">403</div>
+    <div class="message">You don't have access to this page</div>
+    <br />
+    <a asp-action="Index" asp-controller="Home" class="button-Back">Back to Home</a>
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Coolvetica", sans-serif;
+    }
+
+    .container-403 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh; /* Muda para min-height para manter o restante do layout */
+        text-align: center;
+    }
+
+    .error-code {
+        font-size: 250px;
+        font-weight: bold;
+    }
+
+    .message {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+
+    .redirect-message {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #888888;
+    }
+</style>
+
+

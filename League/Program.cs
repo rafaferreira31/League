@@ -63,6 +63,12 @@ namespace League
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/error/403";
+            });
+
 
             var app = builder.Build();
 

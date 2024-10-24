@@ -18,5 +18,12 @@ namespace League.Controllers
         {
             return View();
         }
+
+
+        [Route("error/403")]
+        public IActionResult Error403()
+        {
+            return View();
+        }
     }
 }

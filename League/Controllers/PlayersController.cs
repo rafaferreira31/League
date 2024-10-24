@@ -2,6 +2,7 @@
 using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -32,12 +33,14 @@ namespace League.Controllers
         }
 
         // GET: Players
+        [Authorize]
         public IActionResult Index()
         {
             return View(_playerRepository.GetAll());
         }
 
         // GET: Players/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,13 +58,13 @@ namespace League.Controllers
         }
 
         // GET: Players/Create
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Create()
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
             if (User.IsInRole("ClubRepresentant") && user.ClubId.HasValue)
             {
-                // Exibe apenas o clube do representante logado
                 ViewBag.Clubs = new SelectList(
                     _clubRepository.GetAll().Where(c => c.Id == user.ClubId.Value),
                     "Id",
@@ -69,24 +72,23 @@ namespace League.Controllers
             }
             else
             {
-                // Exibe todos os clubes para outros tipos de usuários
                 ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
             }
 
             ViewBag.Positions = new SelectList(new List<string>
-    {
-        "Goalkeeper",
-        "Left-Back",
-        "Right-Back",
-        "Central-Back",
-        "Sweeper",
-        "Defensive Midfielder",
-        "Central Midfielder",
-        "Left-Winger",
-        "Right-Winger",
-        "Central-Forward",
-        "Striker"
-    });
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
 
             return View();
         }
@@ -97,6 +99,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Create(PlayerViewModel model)
         {
             if (ModelState.IsValid)
@@ -135,6 +138,7 @@ namespace League.Controllers
         }
 
         // GET: Players/Edit/5
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -153,7 +157,6 @@ namespace League.Controllers
 
             if (User.IsInRole("ClubRepresentant") && user.ClubId.HasValue)
             {
-                // Exibe apenas o clube do representante logado
                 ViewBag.Clubs = new SelectList(
                     _clubRepository.GetAll().Where(c => c.Id == user.ClubId.Value),
                     "Id",
@@ -162,24 +165,23 @@ namespace League.Controllers
             }
             else
             {
-                // Exibe todos os clubes para outros tipos de usuários
                 ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
             }
 
             ViewBag.Positions = new SelectList(new List<string>
-    {
-        "Goalkeeper",
-        "Left-Back",
-        "Right-Back",
-        "Central-Back",
-        "Sweeper",
-        "Defensive Midfielder",
-        "Central Midfielder",
-        "Left-Winger",
-        "Right-Winger",
-        "Central-Forward",
-        "Striker"
-    });
+            {
+                "Goalkeeper",
+                "Left-Back",
+                "Right-Back",
+                "Central-Back",
+                "Sweeper",
+                "Defensive Midfielder",
+                "Central Midfielder",
+                "Left-Winger",
+                "Right-Winger",
+                "Central-Forward",
+                "Striker"
+            });
 
             return View(model);
         }
@@ -190,6 +192,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(PlayerViewModel model)
         {
             if (ModelState.IsValid)
@@ -247,6 +250,7 @@ namespace League.Controllers
         }
 
         // GET: Players/Delete/5
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -266,6 +270,7 @@ namespace League.Controllers
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _playerRepository.GetByIdAsync(id);
@@ -274,6 +279,7 @@ namespace League.Controllers
         }
 
 
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Manage()
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

@@ -2,6 +2,7 @@
 using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -157,7 +158,7 @@ namespace League.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult RegisterNewUser()
         {
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
@@ -173,6 +174,7 @@ namespace League.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterNewUser(RegisterNewUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -230,7 +232,7 @@ namespace League.Controllers
             return View(model);
         }
 
-
+        [Authorize]
         public async Task<IActionResult> ChangeUser()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -249,6 +251,7 @@ namespace League.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -286,6 +289,7 @@ namespace League.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeUserAdmin()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -317,6 +321,7 @@ namespace League.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeUserAdmin(ChangeUserAdminViewModel model)
         {
             if (ModelState.IsValid)
@@ -356,7 +361,7 @@ namespace League.Controllers
             return View(model);
         }
 
-
+        [Authorize]
         public IActionResult ChangePassword()
         {
             return View();
@@ -364,6 +369,7 @@ namespace League.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -417,6 +423,7 @@ namespace League.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
             if (this.ModelState.IsValid)
@@ -456,6 +463,7 @@ namespace League.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         public async Task<IActionResult> Profile()
         {
             var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
@@ -467,6 +475,7 @@ namespace League.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin")]
 
         public async Task <IActionResult> ProfileUserList(string id)
         {
@@ -527,7 +536,7 @@ namespace League.Controllers
         }
 
 
-
+        [Authorize]
         public IActionResult ResetPassword(string token)
         {
             return View();
@@ -535,6 +544,7 @@ namespace League.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -560,6 +570,7 @@ namespace League.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UserList()
         {
             var users = await _userHelper.GetAllUsersAsync();

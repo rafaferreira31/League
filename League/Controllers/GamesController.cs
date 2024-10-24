@@ -147,6 +147,8 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "FederationEmployee")]
+
         public async Task<IActionResult> Edit(int id, Game game)
         {
             if (ModelState.IsValid)
@@ -183,6 +185,8 @@ namespace League.Controllers
         }
 
         // GET: Games/Delete/5
+        [Authorize(Roles = "FederationEmployee")]
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -208,6 +212,8 @@ namespace League.Controllers
         // POST: Games/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "FederationEmployee")]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var game = await _gameRepository.GetByIdAsync(id);
@@ -246,6 +252,7 @@ namespace League.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GameClosing(int? id)
         {
             if(id == null)
@@ -268,7 +275,7 @@ namespace League.Controllers
             return View(game);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CloseGame(int id)
         {
             var game = await _gameRepository.GetByIdAsync(id);

@@ -72,6 +72,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(ClubViewModel model)
         {
             if (ModelState.IsValid)
@@ -115,11 +116,11 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //if (user.ClubId != club.Id)
-            //{
-            //    return Forbid(); //TODO: Alterar para view de erro personalizada
-            //}
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
 
             var model = _converterHelper.ToClubViewModel(club);
             return View(model);
@@ -130,13 +131,14 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(ClubViewModel model)
         {
-            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //if (user.ClubId != model.Id)
-            //{
-            //    return Forbid(); //TODO: Alterar para view de erro personalizada
-            //}
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != model.Id)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
 
             if (ModelState.IsValid)
             {
@@ -189,11 +191,11 @@ namespace League.Controllers
                 return NotFound();
             }
 
-            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //if (user.ClubId != club.Id)
-            //{
-            //    return Forbid(); //TODO: Alterar para view de erro personalizada
-            //}
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
 
             return View(club);
         }
@@ -201,15 +203,16 @@ namespace League.Controllers
         // POST: Clubs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var club = await _clubRepository.GetByIdAsync(id);
 
-            //var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //if (user.ClubId != club.Id)
-            //{
-            //    return Forbid(); //TODO: Alterar para view de erro personalizada
-            //}
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user.ClubId != club.Id)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
 
             await _clubRepository.DeleteAsync(club);
 

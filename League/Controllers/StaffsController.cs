@@ -1,6 +1,7 @@
 ﻿using League.Data.Repositories;
 using League.Helpers;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,14 @@ namespace League.Controllers
         }
 
         // GET: Staffs
+        [Authorize]
         public IActionResult Index()
         {
             return View(_staffRepository.GetAll());
         }
 
         // GET: Staffs/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,6 +56,7 @@ namespace League.Controllers
         }
 
         // GET: Staffs/Create
+        [Authorize(Roles = "ClubRepresentant")]
         public IActionResult Create()
         {
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
@@ -75,6 +79,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Create(StaffViewModel model)
         {
             if (ModelState.IsValid)
@@ -106,6 +111,7 @@ namespace League.Controllers
         }
 
         // GET: Staffs/Edit/5
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -141,6 +147,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(StaffViewModel model)
         {
             if (ModelState.IsValid)
@@ -187,6 +194,7 @@ namespace League.Controllers
         }
 
         // GET: Staffs/Delete/5
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -206,6 +214,7 @@ namespace League.Controllers
         // POST: Staffs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var staff = await _staffRepository.GetByIdAsync(id);
@@ -214,6 +223,7 @@ namespace League.Controllers
         }
 
 
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Manage()
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
