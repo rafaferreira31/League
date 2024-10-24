@@ -1,0 +1,12 @@
+﻿@model League.Data.Entities.Game
+
+<div class="custom-header-crud">
+    <h1>Game Closing</h1>
+</div>
+
+<partial name="_GamesDD" />
+
+<div>
+    <a asp-action="CloseGame" asp-route-id="@Model.Id" class="button-24" role="button">Close Game</a> |
+    <a asp-action="Dashboard" class="button-Back" role="button">Back to List</a>
+</div>

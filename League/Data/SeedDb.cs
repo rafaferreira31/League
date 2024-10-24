@@ -1,5 +1,6 @@
 ﻿using League.Data.Entities;
 using League.Helpers;
+using League.Migrations;
 using Microsoft.AspNetCore.Identity;
 
 namespace League.Data
@@ -21,7 +22,7 @@ namespace League.Data
             await _context.Database.EnsureCreatedAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("FederationEmpolyee");
+            await _userHelper.CheckRoleAsync("FederationEmployee");
             await _userHelper.CheckRoleAsync("ClubRepresentant");
             await _userHelper.CheckRoleAsync("Guest");
 
@@ -93,6 +94,18 @@ namespace League.Data
 
                 await _context.SaveChangesAsync();
             }
+
+            if (!_context.Games.Any())
+            {
+                var barcelona = _context.Clubs.FirstOrDefault(c => c.Name == "FC Barcelona");
+                var madrid = _context.Clubs.FirstOrDefault(c => c.Name == "Real Madrid");
+
+                AddGame(new DateTime(2024, 11, 30), barcelona.Id, "FC Barcelona", madrid.Id, "Real Madrid", Game.GameStatus.Scheduled);
+                AddGame(new DateTime(2024, 12, 25), madrid.Id, "Real Madrid", barcelona.Id, "FC Barcelona", Game.GameStatus.Scheduled);
+
+                await _context.SaveChangesAsync();
+            }
+            
         }
 
 
@@ -127,6 +140,19 @@ namespace League.Data
                 Name = name,
                 FoundingDate = foundingDate,
                 Stadium = stadium
+            });
+        }
+
+        private void AddGame(DateTime gameDate, int visitedClubId, string visitedClubName, int visitorClubId, string visitorClubName, Game.GameStatus status)
+        {
+            _context.Games.Add(new Game
+            {
+                GameDate = gameDate,
+                VisitedClubId = visitedClubId,
+                VisitedClubName = visitedClubName,
+                VisitorClubId = visitorClubId,
+                VisitorClubName = visitorClubName,
+                Status = status
             });
         }
     }

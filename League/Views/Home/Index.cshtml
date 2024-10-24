@@ -1,8 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model League.Models.HomePageViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="custom-header-home">
+    <h1>Upcoming Game</h1>
+</div>
+<br />
+
+<div class="game-details-container">
+    <div class="club-info">
+        <img src="@ViewBag.VisitedClubEmblem" alt="Visited Club Emblem" class="club-emblem" />
+        <span class="club-name">@Model.NextGame.VisitedClubName</span>
+    </div>
+
+    <div class="game-result-status">
+        <div class="game-result">
+            <span>@Model.NextGame.GameDate.ToString("MM/dd/yyyy")</span>
+        </div>
+        <div class="game-result">
+            <span>VS</span>
+        </div>
+        <div class="game-status">
+            <span>@Model.NextGame.Status</span>
+        </div>
+    </div>
+
+    <div class="club-info">
+        <img src="@ViewBag.VisitorClubEmblem" alt="Visitor Club Emblem" class="club-emblem" />
+        <span class="club-name">@Model.NextGame.VisitorClubName</span>
+    </div>
+</div>
+<hr />
+<br />
+
+<div style="text-align: center; margin-top: 20px;">
+    <img src="~/images/logo.png" alt="App Logo" class="logo-image-big" />
+</div>
+
+<br />
+<hr />
+<br />
+
+<div class="tables-container">
+    <div class="table-wrapper">
+        <div class="custom-header-small-clubs">
+            <h3>Top 5 Clubs</h3>
+        </div>
+        <table class="table">
+            <tbody>
+                @foreach (var club in Model.ClubStatistics)
+                {
+                    <tr>
+                        <td style="text-align: left;">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="Details" asp-controller="Clubs" asp-route-id="@club.ClubId" style="text-decoration: none; color: inherit;">
+                                    <img src="@club.ImageFullPath" alt="Club Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
+                                    @club.ClubName
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" style="text-decoration: none; color: inherit;">
+                                    <img src="@club.ImageFullPath" alt="Club Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
+                                    @club.ClubName
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-wrapper">
+        <div class="custom-header-small-players">
+            <h3>Players</h3>
+        </div>
+        <table class="table">
+            <tbody>
+                @foreach (var player in Model.RandomPlayers)
+                {
+                    <tr>
+                        <td style="text-align: left;">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="Details" asp-controller="Players" asp-route-id="@player.Id" style="text-decoration: none; color: inherit;">
+                                    <img src="@player.ImageFullPath" alt="Player Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
+                                    @player.FirstName @player.LastName
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login" style="text-decoration: none; color: inherit;">
+                                    <img src="@player.ImageFullPath" alt="Player Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
+                                    @player.FirstName @player.LastName
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

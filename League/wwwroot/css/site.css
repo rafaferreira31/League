@@ -34,6 +34,60 @@ body {
     border-radius: 50%
 }
 
+.custom-header-small-clubs{
+    background: linear-gradient(to right, #4b0049, #fc196b);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Coolvetica", sans-serif;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.custom-header-small-players {
+    background: linear-gradient(to left,#4b0049, #fc196b);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Coolvetica", sans-serif;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+
+
+.tables-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-wrapper {
+    flex: 1;
+    margin-right: 20px;
+}
+
+    .table-wrapper:last-child {
+        margin-right: 0;
+    }
+
+.table {
+    width: 100%;
+}
+
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+        font-weight: bold;
+    }
+
+.table-divider {
+    margin: 40px 0;
+    border-top: 2px solid #ccc;
+}
+
+
 .details-arrow {
     color: rebeccapurple;
     transition: transform 0.2s;
@@ -125,6 +179,27 @@ body {
         font-weight: bold;
     }
 
+.custom-header-home {
+    width: 100%;
+    background: linear-gradient(to right, #4b0049, #fc196b);
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Coolvetica", sans-serif;
+    height: 50px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.custom-header-home h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+    font-weight: bold;
+}
 
 .cruds-images {
     margin-left: 70px;

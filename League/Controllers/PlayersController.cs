@@ -55,27 +55,42 @@ namespace League.Controllers
         }
 
         // GET: Players/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            if (User.IsInRole("ClubRepresentant") && user.ClubId.HasValue)
+            {
+                // Exibe apenas o clube do representante logado
+                ViewBag.Clubs = new SelectList(
+                    _clubRepository.GetAll().Where(c => c.Id == user.ClubId.Value),
+                    "Id",
+                    "Name");
+            }
+            else
+            {
+                // Exibe todos os clubes para outros tipos de usuários
+                ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
+            }
 
             ViewBag.Positions = new SelectList(new List<string>
-            {
-                "Goalkeeper",
-                "Left-Back",
-                "Right-Back",
-                "Central-Back",
-                "Sweeper",
-                "Defensive Midfielder",
-                "Central Midfielder",
-                "Left-Winger",
-                "Right-Winger",
-                "Central-Forward",
-                "Striker"
-            });
+    {
+        "Goalkeeper",
+        "Left-Back",
+        "Right-Back",
+        "Central-Back",
+        "Sweeper",
+        "Defensive Midfielder",
+        "Central Midfielder",
+        "Left-Winger",
+        "Right-Winger",
+        "Central-Forward",
+        "Striker"
+    });
 
             return View();
         }
+
 
         // POST: Players/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -134,26 +149,41 @@ namespace League.Controllers
             }
 
             var model = _converterHelper.ToPlayerViewModel(player);
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+            if (User.IsInRole("ClubRepresentant") && user.ClubId.HasValue)
+            {
+                // Exibe apenas o clube do representante logado
+                ViewBag.Clubs = new SelectList(
+                    _clubRepository.GetAll().Where(c => c.Id == user.ClubId.Value),
+                    "Id",
+                    "Name",
+                    model.ClubId);
+            }
+            else
+            {
+                // Exibe todos os clubes para outros tipos de usuários
+                ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name", model.ClubId);
+            }
 
             ViewBag.Positions = new SelectList(new List<string>
-            {
-                "Goalkeeper",
-                "Left-Back",
-                "Right-Back",
-                "Central-Back",
-                "Sweeper",
-                "Defensive Midfielder",
-                "Central Midfielder",
-                "Left-Winger",
-                "Right-Winger",
-                "Central-Forward",
-                "Striker"
-            });
+    {
+        "Goalkeeper",
+        "Left-Back",
+        "Right-Back",
+        "Central-Back",
+        "Sweeper",
+        "Defensive Midfielder",
+        "Central Midfielder",
+        "Left-Winger",
+        "Right-Winger",
+        "Central-Forward",
+        "Striker"
+    });
 
             return View(model);
         }
+
 
         // POST: Players/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

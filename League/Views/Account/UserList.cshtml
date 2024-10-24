@@ -10,7 +10,7 @@
         @foreach (var item in Model)
         {
             <div class="col-md-3 mb-4">
-                <a asp-action="Profile" asp-route-id="@item.User.Id" style="text-decoration: none; color: inherit;">
+                <a asp-action="ProfileUserList" asp-route-id="@item.User.Id" style="text-decoration: none; color: inherit;">
                     <div class="card h-100 shadow-sm">
                         @if (!string.IsNullOrEmpty(item.User.ImageFullPath))
                         {

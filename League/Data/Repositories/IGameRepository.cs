@@ -21,5 +21,7 @@ namespace League.Data.Repositories
         Task<int> GetGoalsConcededByClub(int clubId);
 
         Task<int> CalculatePointsByClub(int clubId);
+
+        Task<Game> GetNextGameAsync();
     }
 }

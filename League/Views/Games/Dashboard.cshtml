@@ -9,13 +9,11 @@
 </div>
 <br />
 <hr />
-<p>
-    <a asp-action="Create" class="button-Back" role="button"><i class="fas fa-plus"> NEW </i></a>
-</p>
+
 
 @foreach (var group in groupedGames)
 {
-    <h2>@group.Key.ToString("dddd, MMMM dd yyyy", System.Globalization.CultureInfo.InvariantCulture)</h2>
+    <h2>@group.Key.ToString("dddd, dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</h2>
 
     <div class="game-index-game-list">
         @foreach (var item in group)
@@ -40,13 +38,8 @@
                     <a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-arrow-right details-arrow"></i></a>
                 </div>
             </div>
-            <br/>
-            <br/>
+            <br />
+            <br />
         }
     </div>
 }
-
-
-<style>
-    
-</style>

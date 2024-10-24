@@ -62,8 +62,7 @@ namespace League.Controllers
 
                     if (await _userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        //TODO: FAZER A VIEW DO DASHBOARD E ALTERAR O CAMINHO 
-                        return this.RedirectToAction("DashBoard", "Admin");
+                        return this.RedirectToAction("DashBoard", "Games");
                     }
 
                     if (this.Request.Query.Keys.Contains("ReturnUrl"))
@@ -166,7 +165,7 @@ namespace League.Controllers
             ViewBag.Roles = new SelectList(new List<string>
             {
                 "Admin",
-                "FederationEmpolyee",
+                "FederationEmployee",
                 "ClubRepresentant",
             });
 
@@ -298,7 +297,7 @@ namespace League.Controllers
             ViewBag.Roles = new SelectList(new List<string>
             {
                 "Admin",
-                "FederationEmpolyee",
+                "FederationEmployee",
                 "ClubRepresentant",
             });
 
@@ -457,16 +456,31 @@ namespace League.Controllers
             return BadRequest();
         }
 
-
-        public async Task <IActionResult> Profile()
+        public async Task<IActionResult> Profile()
         {
-            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
             if (user == null)
             {
                 return NotFound();
             }
 
-            
+            return View(user);
+        }
+
+
+        public async Task <IActionResult> ProfileUserList(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+            if(user == null)
+            {
+                return NotFound();
+            }
+
             return View(user);
         }
 

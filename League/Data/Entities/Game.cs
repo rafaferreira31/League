@@ -42,7 +42,8 @@ namespace League.Data.Entities
         {
             Scheduled,
             OnGoing,
-            Finished
+            Finished,
+            Closed
         }
     }
 }

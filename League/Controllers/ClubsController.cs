@@ -33,6 +33,7 @@ namespace League.Controllers
         }
 
         // GET: Clubs
+        [Authorize]
         public IActionResult Index()
         {
             return View(_clubRepository.GetAll().OrderBy(c => c.Name));
@@ -60,6 +61,7 @@ namespace League.Controllers
         }
 
         // GET: Clubs/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -98,6 +100,7 @@ namespace League.Controllers
         }
 
         // GET: Clubs/Edit/5
+        [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -172,6 +175,7 @@ namespace League.Controllers
         }
 
         // GET: Clubs/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -212,7 +216,7 @@ namespace League.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [Authorize(Roles ="ClubRepresentant")]
         public async Task<IActionResult> Manage()
         {
             var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

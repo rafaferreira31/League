@@ -1,5 +1,6 @@
 ﻿using League.Data.Repositories;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace League.Controllers
@@ -15,7 +16,7 @@ namespace League.Controllers
             _gameRepository = gameRepository;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var clubs = _clubRepository.GetAll();
@@ -40,7 +41,7 @@ namespace League.Controllers
                 clubStats.Add(stats);
             }
 
-            var sortedClubStats = clubStats.OrderByDescending(c => c.Points).ToList();
+            var sortedClubStats = clubStats.OrderByDescending(c => c.Points).ThenByDescending(c => c.GamesPlayed).ToList();
 
             return View(sortedClubStats);
         }

@@ -9,6 +9,7 @@ using League.Data;
 using League.Data.Entities;
 using League.Data.Repositories;
 using League.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace League.Controllers
 {
@@ -24,9 +25,10 @@ namespace League.Controllers
         }
 
         // GET: Games
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var games = _gameRepository.GetAll().OrderBy(g => g.GameDate).ToList();
+            var games = _gameRepository.GetAll().OrderByDescending(g => g.GameDate).ToList();
 
             var model = new List<GameViewModel>();
 
@@ -48,7 +50,7 @@ namespace League.Controllers
                     Status = game.Status
                 });
 
-                _gameRepository.UpdateGameStatusAsync(game);
+                await _gameRepository.UpdateGameStatusAsync(game);
             }
 
             return View(model);
@@ -56,6 +58,7 @@ namespace League.Controllers
 
 
         // GET: Games/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -79,6 +82,7 @@ namespace League.Controllers
         }
 
         // GET: Games/Create
+        [Authorize(Roles ="FederationEmployee")]
         public IActionResult Create()
         {
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
@@ -90,6 +94,7 @@ namespace League.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="FederationEmployee")]
         public async Task<IActionResult> Create(Game game)
         {
             if (ModelState.IsValid)
@@ -113,6 +118,7 @@ namespace League.Controllers
         }
 
         // GET: Games/Edit/5
+        [Authorize(Roles = "FederationEmployee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,6 +130,11 @@ namespace League.Controllers
             if (game == null)
             {
                 return NotFound();
+            }
+
+            if(game.Status == Game.GameStatus.Closed)
+            {
+                return RedirectToAction(nameof(Index)); //FAZER VIEW PARA MOSTRAR MENSAGEM DE ERRO
             }
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");
@@ -204,5 +215,77 @@ namespace League.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Dashboard()
+        {
+            var games = await _gameRepository.GetGamesToCloseAsync();
+            
+            var model = new List<GameViewModel>();
+
+            foreach(var game in games)
+            {
+                var visitedClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitedClubId);
+                var visitorClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitorClubId);
+
+                model.Add(new GameViewModel
+                {
+                    Id = game.Id,
+                    GameDate = game.GameDate,
+                    VisitedClubName = game.VisitedClubName,
+                    VisitorClubName = game.VisitorClubName,
+                    VisitedGoals = game.VisitedGoals,
+                    VisitorGoals =  game.VisitorGoals,
+                    VisitedClubEmblem = visitedClubEmblem,
+                    VisitorClubEmblem = visitorClubEmblem,
+                    Status = game.Status
+                });
+
+                await _gameRepository.UpdateGameStatusAsync(game);
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> GameClosing(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _gameRepository.GetByIdAsync(id.Value);
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            var visitedClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitedClubId);
+            var visitorClubEmblem = await _clubRepository.GetClubEmblemById(game.VisitorClubId);
+
+            ViewBag.VisitedClubEmblem = visitedClubEmblem;
+            ViewBag.VisitorClubEmblem = visitorClubEmblem;
+
+            return View(game);
+        }
+
+
+        public async Task<IActionResult> CloseGame(int id)
+        {
+            var game = await _gameRepository.GetByIdAsync(id);
+            if(game == null)
+            {
+                return NotFound();
+            }
+
+            game.Status = Game.GameStatus.Closed;
+
+
+            await _gameRepository.UpdateAsync(game);
+
+            ViewBag.Message = "Game closed successfully";
+
+            return RedirectToAction(nameof(Dashboard));
+        }
+
     }
 }
