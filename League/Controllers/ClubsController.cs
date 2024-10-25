@@ -16,13 +16,15 @@ namespace League.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
         private readonly DataContext _context;
+        private readonly IGameRepository _gameRepository;
 
         public ClubsController(
             IClubRepository clubRepository,
             IBlobHelper blobHelper,
             IConverterHelper converterHelper,
             IUserHelper userHelper,
-            DataContext context
+            DataContext context,
+            IGameRepository gameRepository
             )
         {
             _clubRepository = clubRepository;
@@ -30,6 +32,7 @@ namespace League.Controllers
             _converterHelper = converterHelper;
             _userHelper = userHelper;
             _context = context;
+            _gameRepository = gameRepository;
         }
 
         // GET: Clubs
@@ -92,6 +95,14 @@ namespace League.Controllers
                     ModelState.AddModelError(string.Empty, "There is a club with the same name.");
                     return View(model);
                 }
+
+                club.GamesPlayed = 0;
+                club.GamesWon = 0;
+                club.GamesDrawn = 0;
+                club.GamesLost = 0;
+                club.GoalsScored = 0;
+                club.GoalsConceded = 0;
+                club.Points = 0;
 
                 await _clubRepository.CreateAsync(club);
 
@@ -230,6 +241,40 @@ namespace League.Controllers
             }
 
             return RedirectToAction("Details", new { id = user.ClubId });
+        }
+
+
+        public async Task<IActionResult> Statistics()
+        {
+            var clubs = _clubRepository.GetAll().ToList();
+            var model = new List<ClubStatisticsViewModel>();
+
+            foreach (var club in clubs)
+            {
+                model.Add(new ClubStatisticsViewModel
+                {
+                    ClubId = club.Id,
+                    ClubName = club.Name,
+                    GamesPlayed = await _gameRepository.GetGamesPlayedAsync(club.Id),
+                    GamesWon = await _gameRepository.GetGamesWonAsync(club.Id),
+                    GamesDrawn = await _gameRepository.GetGamesDrawnAsync(club.Id),
+                    GamesLost = await _gameRepository.GetGamesLostAsync(club.Id),
+                    GoalsScored = await _gameRepository.GetGoalsScoredAsync(club.Id),
+                    GoalsConceded = await _gameRepository.GetGoalsConcededAsync(club.Id),
+                    Points = await _gameRepository.GetPointsAsync(club.Id)
+                });
+            }
+
+            model = model.OrderByDescending(c => c.Points)
+                .ThenByDescending(c => c.GoalsScored)
+                .Select((club, index) =>
+                {
+                    club.Rank = index + 1;
+                    return club;
+                })
+                .ToList();
+
+            return View(model);
         }
     }
 }

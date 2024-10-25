@@ -39,7 +39,7 @@
 <hr />
 <br />
 
-<div class="tables-container">
+ <div class="tables-container">
     <div class="table-wrapper">
         <div class="custom-header-small-clubs">
             <h3>Top 5 Clubs</h3>
@@ -50,27 +50,16 @@
                 {
                     <tr>
                         <td style="text-align: left;">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <a asp-action="Details" asp-controller="Clubs" asp-route-id="@club.ClubId" style="text-decoration: none; color: inherit;">
-                                    <img src="@club.ImageFullPath" alt="Club Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
-                                    @club.ClubName
-                                </a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Account" asp-action="Login" style="text-decoration: none; color: inherit;">
-                                    <img src="@club.ImageFullPath" alt="Club Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
-                                    @club.ClubName
-                                </a>
-                            }
+                            <a asp-action="Details" asp-controller="Clubs" asp-route-id="@club.ClubId" style="text-decoration: none; color: inherit;">
+                                @club.ClubName
+                            </a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
+    
     <div class="table-wrapper">
         <div class="custom-header-small-players">
             <h3>Players</h3>
@@ -81,20 +70,10 @@
                 {
                     <tr>
                         <td style="text-align: left;">
-                            @if (User.Identity.IsAuthenticated)
-                            {
                                 <a asp-action="Details" asp-controller="Players" asp-route-id="@player.Id" style="text-decoration: none; color: inherit;">
                                     <img src="@player.ImageFullPath" alt="Player Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
                                     @player.FirstName @player.LastName
                                 </a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Account" asp-action="Login" style="text-decoration: none; color: inherit;">
-                                    <img src="@player.ImageFullPath" alt="Player Image" style="height: 50px; width: 50px; object-fit: cover; margin-right: 10px;">
-                                    @player.FirstName @player.LastName
-                                </a>
-                            }
                         </td>
                     </tr>
                 }
@@ -102,3 +81,4 @@
         </table>
     </div>
 </div>
+ 

@@ -1,19 +1,20 @@
 {
   "dependencies": {
     "mssql1": {
-      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NosLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_17019F5389",
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_17019F5389",
       "secretStore": "AzureAppSettings",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/leaguedbserver/databases/League_db",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/leaguedbserver/databases/League_db",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:DefaultConnection",
       "dynamicId": null
     },
     "storage3": {
-      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NosLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionString_409DD3C606, /subscriptions/17865594-5442-459d-a0f7-686d680e2355/resourcegroups/NOSLeagueResourceGroup/providers/Microsoft.Web/sites/NosLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionString_C5B8FDBA2F",
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionString_409DD3C606, /subscriptions/17865594-5442-459d-a0f7-686d680e2355/resourceGroups/NOSLeagueResourceGroup/providers/Microsoft.Web/sites/NOSLeague/providers/Microsoft.ServiceLinker/linkers/ConnectionString_C5B8FDBA2F",
       "secretStore": "AzureAppSettings",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/nosleague",
       "type": "storage.azure",
-      "connectionId": "ConnectionString"
+      "connectionId": "ConnectionString",
+      "dynamicId": null
     }
   }
 }

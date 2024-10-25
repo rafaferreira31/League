@@ -19,7 +19,8 @@
     },
     "storage3": {
       "type": "storage",
-      "connectionId": "ConnectionString"
+      "connectionId": "ConnectionString",
+      "dynamicId": null
     }
   }
 }

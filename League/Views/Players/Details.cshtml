@@ -10,14 +10,5 @@
  <partial name="_PlayersDD" />
 
 <div>
-    <a asp-action="Delete" asp-route-id="@Model?.Id" class="button-24" role="button">Delete</a> |
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="button-Edit">Edit</a> |
-    @if (User.IsInRole("ClubRepresentant"))
-    {
-        <a asp-action="Manage" class="button-Back">Back to List</a>
-    }
-    else
-    {
-        <a asp-action="Index" class="button-Back">Back to List</a>
-    }
+    <a asp-action="Index" class="button-Back">Back to List</a>
 </div>

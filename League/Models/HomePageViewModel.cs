@@ -7,9 +7,9 @@ namespace League.Models
         public Game NextGame { get; set; }
 
 
-        public List<ClubStatisticsViewModel> ClubStatistics { get; set; }
+        public List<ClubStatisticsViewModel>? ClubStatistics { get; set; }
 
 
-        public List<Player> RandomPlayers { get; set; }
+        public List<Player>? RandomPlayers { get; set; }
     }
 }

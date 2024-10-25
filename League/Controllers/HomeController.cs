@@ -23,12 +23,6 @@ namespace League.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var players = _playerRepository.GetAll();
-            var randomPlayers = players
-                .OrderBy(p => Guid.NewGuid()) 
-                .Take(5)                      
-                .ToList();
-
             var nextGame = await _gameRepository.GetNextGameAsync();
 
             var visitedClubEmblem = await _clubRepository.GetClubEmblemById(nextGame.VisitedClubId);
@@ -38,30 +32,26 @@ namespace League.Controllers
             ViewBag.VisitorClubEmblem = visitorClubEmblem;
 
             var clubs = _clubRepository.GetAll();
-            var clubStats = new List<ClubStatisticsViewModel>();
+            var clubsStats = new List<ClubStatisticsViewModel>();
+
+            var players = _playerRepository.GetAll();
+            var randomPlayers = players
+                .OrderBy(p => Guid.NewGuid())
+                .Take(5)
+                .ToList();
 
             foreach (var club in clubs)
             {
-                var stats = new ClubStatisticsViewModel
+                clubsStats.Add(new ClubStatisticsViewModel
                 {
                     ClubId = club.Id,
                     ClubName = club.Name,
-                    GamesPlayed = await _gameRepository.GetGamesPlayedByClub(club.Id),
-                    GamesWon = await _gameRepository.GetGamesWonByClub(club.Id),
-                    GamesDrawn = await _gameRepository.GetGamesDrawnByClub(club.Id),
-                    GamesLost = await _gameRepository.GetGamesLostByClub(club.Id),
-                    GoalsScored = await _gameRepository.GetGoalsScoredByClub(club.Id),
-                    GoalsConceded = await _gameRepository.GetGoalsConcededByClub(club.Id),
-                    Points = await _gameRepository.CalculatePointsByClub(club.Id),
-                    ImageFullPath = club.ImageFullPath
-                };
-
-                clubStats.Add(stats);
+                });
             }
 
-            var top5Clubs = clubStats
+            var top5Clubs = clubsStats
                     .OrderByDescending(c => c.Points)
-                    .ThenByDescending(c => c.GamesPlayed)
+                    .ThenByDescending(c => c.GoalsScored)
                     .Take(5)
                     .ToList();
 
@@ -69,7 +59,7 @@ namespace League.Controllers
             {
                 RandomPlayers = randomPlayers,
                 NextGame = nextGame,
-                ClubStatistics = top5Clubs 
+                ClubStatistics = top5Clubs
             };
 
             return View(model);

@@ -9,5 +9,6 @@ namespace League.Data.Repositories
         Task<string> GetClubNameById(int id);
 
         Task<string> GetClubEmblemById(int id);
+
     }
 }

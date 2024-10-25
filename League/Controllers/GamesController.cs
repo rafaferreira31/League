@@ -134,7 +134,7 @@ namespace League.Controllers
 
             if(game.Status == Game.GameStatus.Closed)
             {
-                return RedirectToAction(nameof(Index)); //FAZER VIEW PARA MOSTRAR MENSAGEM DE ERRO
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Clubs = new SelectList(_clubRepository.GetAll(), "Id", "Name");

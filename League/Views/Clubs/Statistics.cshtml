@@ -1,0 +1,38 @@
+﻿<div class="custom-header-crud">
+    <h1 class="text-center">Club Statistics</h1>
+</div>
+<hr/>
+<br />
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Club</th>
+                <th scope="col">Played</th>
+                <th scope="col">Won</th>
+                <th scope="col">Drawn</th>
+                <th scope="col">Lost</th>
+                <th scope="col">Scored</th>
+                <th scope="col">Conceded</th>
+                <th scope="col">Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var club in Model)
+            {
+                <tr>
+                    <td><strong>@club.Rank</strong></td>
+                    <td>@club.ClubName</td>
+                    <td>@club.GamesPlayed</td>
+                    <td>@club.GamesWon</td>
+                    <td>@club.GamesDrawn</td>
+                    <td>@club.GamesLost</td>
+                    <td class="text-success"><strong>@club.GoalsScored</strong></td>
+                    <td class="text-danger"><strong>@club.GoalsConceded</strong></td>
+                    <td><strong>@club.Points</strong></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

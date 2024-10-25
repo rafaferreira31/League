@@ -23,27 +23,6 @@
                 <input class="form-control" value="@Model.PhoneNumber" readonly />
             </div>
 
-            @if (User.IsInRole("Admin"))
-            {
-                <div class="form-group-profile">
-                    <label>Role</label>
-                    <input class="form-control" value="Admin" readonly />
-                </div>
-            }
-            else if (User.IsInRole("FederationEmployee"))
-            {
-                <div class="form-group-profile">
-                    <label>Role</label>
-                    <input class="form-control" value="Federation Employee" readonly />
-                </div>
-            }
-            else if (User.IsInRole("ClubRepresentant"))
-            {
-                <div class="form-group-profile">
-                    <label>Role</label>
-                    <input class="form-control" value="Club Representant" readonly />
-                </div>
-            }
         </div>
 
         <div class="col-md-4">

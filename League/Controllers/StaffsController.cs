@@ -55,6 +55,29 @@ namespace League.Controllers
             return View(staff);
         }
 
+        [Authorize]
+        public async Task<IActionResult> DetailsManage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var staff = await _staffRepository.GetByIdAsync(id.Value);
+            if (staff == null)
+            {
+                return NotFound();
+            }
+            
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if(user.ClubId == null || user.ClubId != staff.ClubId)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
+
+            return View(staff);
+        }
+
         // GET: Staffs/Create
         [Authorize(Roles = "ClubRepresentant")]
         public IActionResult Create()

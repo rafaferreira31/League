@@ -1,0 +1,18 @@
+﻿@model League.Data.Entities.Player
+
+<div class="custom-header-crud">
+    <h1>Details</h1>
+</div>
+
+<hr />
+<br />
+
+<partial name="_PlayersDD" />
+
+<div>
+    <a asp-action="Delete" asp-route-id="@Model?.Id" class="button-24" role="button">Delete</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="button-Edit">Edit</a> |
+    <a asp-action="Manage" class="button-Back">Back to List</a>
+    
+</div>
+

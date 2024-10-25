@@ -6,22 +6,22 @@ namespace League.Data.Repositories
     {
         Task UpdateGameStatusAsync(Game game);
 
+        Task<Game> GetNextGameAsync();
+
         Task<List<Game>> GetGamesToCloseAsync();
 
-        Task<int> GetGamesPlayedByClub(int clubId);
+        Task<int> GetGamesPlayedAsync(int id);
 
-        Task<int> GetGamesWonByClub(int clubId);
+        Task<int> GetGamesWonAsync(int id);
 
-        Task<int> GetGamesLostByClub(int clubId);
+        Task<int> GetGamesLostAsync(int id);
 
-        Task<int> GetGamesDrawnByClub(int clubId);
+        Task<int> GetGamesDrawnAsync(int id);
 
-        Task<int> GetGoalsScoredByClub(int clubId);
+        Task<int> GetGoalsScoredAsync(int id);
 
-        Task<int> GetGoalsConcededByClub(int clubId);
+        Task<int> GetGoalsConcededAsync(int id);
 
-        Task<int> CalculatePointsByClub(int clubId);
-
-        Task<Game> GetNextGameAsync();
+        Task<int> GetPointsAsync(int id);
     }
 }

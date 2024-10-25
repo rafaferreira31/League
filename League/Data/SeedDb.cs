@@ -60,10 +60,10 @@ namespace League.Data
 
             if (!_context.Clubs.Any())
             {
-                AddClub("FC Barcelona", new DateTime(1899, 11, 29), "Camp Nou");
-                AddClub("Real Madrid", new DateTime(1902, 3, 6), "Santiago Bernabeu");
-                AddClub("Paris Saint-Germain", new DateTime(1970, 8, 12), "Parc des Princes");
-                AddClub("Manchester City", new DateTime(1880, 4, 23), "Etihad Stadium");
+                AddClub("FC Barcelona", new DateTime(1899, 11, 29), "Camp Nou" , 0,0,0,0,0,0,0);
+                AddClub("Real Madrid", new DateTime(1902, 3, 6), "Santiago Bernabeu", 0, 0, 0, 0, 0, 0, 0);
+                AddClub("Paris Saint-Germain", new DateTime(1970, 8, 12), "Parc des Princes", 0, 0, 0, 0, 0, 0, 0);
+                AddClub("Manchester City", new DateTime(1880, 4, 23), "Etihad Stadium", 0, 0, 0, 0, 0, 0, 0);
                 await _context.SaveChangesAsync();
             }
 
@@ -133,13 +133,20 @@ namespace League.Data
             });
         }
 
-        private void AddClub(string name, DateTime foundingDate, string stadium)
+        private void AddClub(string name, DateTime foundingDate, string stadium, int gamesPlayed, int gamesWon, int gamesDrawn, int gamesLost, int goalsScored, int goalsConceded, int points)
         {
             _context.Clubs.Add(new Club
             {
                 Name = name,
                 FoundingDate = foundingDate,
-                Stadium = stadium
+                Stadium = stadium,
+                GamesPlayed = gamesPlayed,
+                GamesWon = gamesWon,
+                GamesDrawn = gamesDrawn,
+                GamesLost = gamesLost,
+                GoalsScored = goalsScored,
+                GoalsConceded = goalsConceded,
+                Points = points
             });
         }
 

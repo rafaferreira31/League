@@ -4,6 +4,7 @@ using League.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace League.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241024215145_Final")]
+    partial class Final
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,24 +36,6 @@ namespace League.Migrations
                     b.Property<DateTime>("FoundingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GamesDrawn")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GamesLost")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GamesPlayed")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GamesWon")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GoalsConceded")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GoalsScored")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uniqueidentifier");
 
@@ -58,16 +43,13 @@ namespace League.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Points")
-                        .HasColumnType("int");
-
                     b.Property<string>("Stadium")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clubs", (string)null);
+                    b.ToTable("Clubs");
                 });
 
             modelBuilder.Entity("League.Data.Entities.Game", b =>
@@ -104,7 +86,7 @@ namespace League.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games", (string)null);
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("League.Data.Entities.Player", b =>
@@ -143,7 +125,7 @@ namespace League.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("League.Data.Entities.Staff", b =>
@@ -179,7 +161,7 @@ namespace League.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.ToTable("Staffs", (string)null);
+                    b.ToTable("Staffs");
                 });
 
             modelBuilder.Entity("League.Data.Entities.User", b =>

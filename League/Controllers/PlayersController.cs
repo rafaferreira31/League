@@ -57,6 +57,31 @@ namespace League.Controllers
             return View(player);
         }
 
+        [Authorize(Roles ="ClubRepresentant")]
+        public async Task<IActionResult> DetailsManage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var player = await _playerRepository.GetByIdAsync(id.Value);
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if(user.ClubId == null || user.ClubId != player.ClubId)
+            {
+                return RedirectToAction("Error403", "Errors");
+            }
+
+
+            return View(player);
+        }
+
+
         // GET: Players/Create
         [Authorize(Roles = "ClubRepresentant")]
         public async Task<IActionResult> Create()
